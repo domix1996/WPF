@@ -59,7 +59,7 @@ namespace ModelNamespace
                     IconName = response.Data.weather[0].icon,
             
                     IconUrl = String.Format("http://openweathermap.org/img/w/" + response.Data.weather[0].icon + ".png"),
-                    Temperature = response.Data.main.temp ,
+                    Temperature = Math.Round(response.Data.main.temp,1) ,
                     Pressure = response.Data.main.pressure,
                     Humidity = response.Data.main.humidity,
                     TempMax = response.Data.main.temp_max ,

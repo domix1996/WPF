@@ -31,6 +31,7 @@
                     <TextBox
                         Style="{StaticResource CityNameStyle}"
                         Text="{Binding CityName, Mode=TwoWay}"
+                        KeyDown="UIElement_OnKeyDown"
                     ></TextBox>
                   
 
@@ -52,11 +53,11 @@
                         </TextBlock.Text>
                     </TextBlock>
 
-                    <Button 
+                    <!--<Button 
                         Style="{StaticResource RefreshButtonStyle}"
                         Click="ButtonBase_OnClick"
                     >
-                    </Button>
+                    </Button>-->
                     <Grid Height="100">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>

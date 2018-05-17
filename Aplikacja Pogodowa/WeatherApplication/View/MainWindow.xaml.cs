@@ -24,5 +24,15 @@ namespace WeatherApplicationNamespace
             vm?.RefreshData(vm.CityName);
         }
 
+        private void UIElement_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var vm = this.Resources["WeatherVM"] as WeatherViewModel;
+                TextBox tb = sender as TextBox;
+                vm.CityName = tb.Text;
+                vm?.RefreshData(vm.CityName);
+          }
         }
+    }
 }
