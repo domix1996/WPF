@@ -63,7 +63,6 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
-
         public string ShortDescription
         {
             get => _model.ShortDescription;
@@ -165,7 +164,6 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
-        //WindInfo
         public double Speed
         {
             get => _model.Speed;
@@ -192,7 +190,6 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
-        //SunInfo
         public int Sunrise
         {
             get => _model.Sunrise;
@@ -219,7 +216,6 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
-
         public int Visibility
         {
             get => _model.Visibility;
@@ -233,7 +229,6 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
-
         public DateTime Date
         {
             get => _model.Date;
@@ -252,10 +247,7 @@ namespace Weather.ViewModelNamespace
         {
             _model = DAL.GetDataByCity(city);
             OnPropertyChanged();
-
         }
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

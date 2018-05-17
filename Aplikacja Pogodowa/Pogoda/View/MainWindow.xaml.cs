@@ -17,9 +17,6 @@ using Weather.ViewModelNamespace;
 
 namespace Pogoda
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -28,23 +25,11 @@ namespace Pogoda
 
         }
 
-        //private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    var vm = this.Resources["WeatherVM"] as WeatherViewModel;
-        //    vm._model.Coord.Latitude = 5000;
-
-        //}
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             var vm = this.Resources["WeatherVM"] as WeatherViewModel;
-            vm.RefreshData(vm.CityName);
-            //vm.Latitude = 123232;
-            //vm.Longitude = 023022;
-
+            vm?.RefreshData(vm.CityName);
         }
-        private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            
-        }
+        
     }
 }
