@@ -1,0 +1,48 @@
+﻿<Window x:Class="Tabelka.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tabelka"
+        mc:Ignorable="d"
+      Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="28"></Setter>
+        </Style>
+        <LinearGradientBrush x:Key ="BackGroundBrush " StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="AliceBlue" Offset="0" />
+            <GradientStop Color="Green" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="MegaBackGround" TargetType="StackPanel">
+            <Setter Property="Background" Value="{StaticResource BackGroundBrush }"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Imie}"></TextBlock>
+            <TextBlock Grid.Column="1" Text="{Binding Nazwisko}"></TextBlock>
+        </Grid>
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Zainteresowania}">
+            <!--<DataTemplate>
+                <WrapPanel>
+                    <TextBlock Text="- "></TextBlock>
+                    <TextBlock Text="{Binding .}"></TextBlock>
+                </WrapPanel>
+            </DataTemp-->late>
+        </ItemsControl>
+
+    </Grid>
+</Window>
+
