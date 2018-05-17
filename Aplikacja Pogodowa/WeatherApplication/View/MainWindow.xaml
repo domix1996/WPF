@@ -1,0 +1,140 @@
+﻿<Window x:Class="WeatherApplicationNamespace.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherApplication"
+        xmlns:vm="clr-namespace:ViewModelNamespace"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="400">
+    <Window.Resources>
+        <vm:WeatherViewModel x:Key="WeatherVM"></vm:WeatherViewModel>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource WeatherVM }" 
+          Background="SteelBlue">
+
+        <Grid >
+            <Grid.RowDefinitions >
+                <RowDefinition Height="7*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="1">
+                    <TextBox
+                        Style="{StaticResource CityNameStyle}"
+                        Text="{Binding CityName, Mode=TwoWay}"
+                    ></TextBox>
+                  
+
+                    <TextBlock 
+                         HorizontalAlignment="Center"
+                        Text="{Binding Temperature,StringFormat= {}{0}°}"
+                        FontSize="80"
+                    ></TextBlock>
+
+                    <TextBlock
+                        Padding="0,0,0,0"
+                        FontSize="24"
+                        HorizontalAlignment="Center">
+                        <TextBlock.Text >
+                            <MultiBinding StringFormat= "{}{0} °/{1}°">
+                                <Binding Path="TempMin"></Binding>
+                                <Binding Path="TempMax"></Binding>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+
+                    <Button 
+                        Style="{StaticResource RefreshButtonStyle}"
+                        Click="ButtonBase_OnClick"
+                    >
+                    </Button>
+                    <Grid Height="100">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel   
+                            Grid.Column="0">
+                            <Image 
+                                Style="{StaticResource BigIconStyle}"
+                                Source="{Binding IconUrl}">
+                            </Image>
+                            <TextBlock 
+                                Style="{StaticResource BigIconInfoStyle}"
+                                HorizontalAlignment="Center"
+                                Text="{Binding ShortDescription}">
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel 
+                            Grid.Column="1">
+                            <Image 
+                                Style="{StaticResource BigIconStyle}"
+                                Source="{Binding DirectIcon}">
+                            </Image>
+                            <TextBlock 
+                                Style="{StaticResource BigIconInfoStyle}"
+                                HorizontalAlignment="Center"
+                            Text="{Binding Speed,StringFormat={}{0}km/h}">
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            <Grid Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image 
+                    Grid.Row="0"
+                    Style="{StaticResource SmallIconStyle}"
+                    Source="C:\Users\mistr\Documents\Repo\WPF\Aplikacja Pogodowa\WeatherApplication\Icons\Humidity.png">
+                </Image>
+                <Image 
+                    Grid.Row="1"
+                    Style="{StaticResource SmallIconStyle}"
+                    Source="C:\Users\mistr\Documents\Repo\WPF\Aplikacja Pogodowa\WeatherApplication\Icons\Pressure.png">
+
+                </Image>
+
+                <TextBlock  
+                    Grid.Row="0"
+                    Grid.Column="1"
+
+                   Style="{StaticResource SmallIconInfoStyle}"
+                    Text="{Binding Humidity,StringFormat=Humidity: {0}%}">
+                </TextBlock>
+                <TextBlock  
+                    Style="{StaticResource SmallIconInfoStyle}"
+
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding Pressure,StringFormat=Pressure: {0} hPa}">
+                </TextBlock>
+              
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
+
+
+
+
+
+
+

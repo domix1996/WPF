@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE7123CF-4B66-4688-A59B-C08DB3C29960}</ProjectGuid>
+    <ProjectGuid>{90C213FE-35AC-4920-8696-E3356CE35C82}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Pogoda</RootNamespace>
-    <AssemblyName>Pogoda</AssemblyName>
+    <RootNamespace>WeatherApplication</RootNamespace>
+    <AssemblyName>WeatherApplication</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -63,9 +63,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DAL.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="DAL\DAL.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
+    <Page Include="StylesDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -73,14 +77,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model.cs" />
-    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Model\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +112,24 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\E.png" />
+    <Resource Include="Icons\N.png" />
+    <Resource Include="Icons\NE.png" />
+    <Resource Include="Icons\NW.png" />
+    <Resource Include="Icons\S.png" />
+    <Resource Include="Icons\SE.png" />
+    <Resource Include="Icons\SW.png" />
+    <Resource Include="Icons\W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Humidity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Pressure.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.0.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.0.3\build\Fody.targets')" />

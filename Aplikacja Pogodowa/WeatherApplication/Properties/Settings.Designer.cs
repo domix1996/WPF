@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Pogoda.Properties
+namespace WeatherApplication.Properties
 {
 
 

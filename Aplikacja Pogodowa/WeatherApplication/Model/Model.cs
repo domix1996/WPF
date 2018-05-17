@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Pogoda.Annotations;
+using System.Windows.Controls;
 
-namespace Weather.ModelNamespace
+namespace ModelNamespace
 {
+
     public class WeatherModel : INotifyPropertyChanged
     {
 
@@ -17,7 +17,8 @@ namespace Weather.ModelNamespace
         //WeatherInfo
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
-        public string Icon { get; set; }
+        public string IconName { get; set; }
+        public string IconUrl { get;set; }
         public double Temperature { get; set; }
         public int Pressure { get; set; }
         public int Humidity { get; set; }
@@ -26,6 +27,8 @@ namespace Weather.ModelNamespace
         //WindInfo
         public double Speed { get; set; }
         public int Degree { get; set; }
+        public string Direct { get; set; }
+        public string DirectIcon { get; set; }
         //SunInfo
         public int Sunrise { get; set; }
         public int Sunset { get; set; }
@@ -35,7 +38,6 @@ namespace Weather.ModelNamespace
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

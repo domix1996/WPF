@@ -1,17 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Dynamic;
 using System.Runtime.CompilerServices;
-using Pogoda.Annotations;
-using RestSharp.Deserializers;
-using Weather.ModelNamespace;
-
-//użyto Fody
-namespace Weather.ViewModelNamespace
+using ModelNamespace;
+namespace ViewModelNamespace
 {
     public class WeatherViewModel : INotifyPropertyChanged
     {
-        private WeatherModel _model { get; set; } = DAL.GetDataByCity();
+        private WeatherModel _model { get; set; } = DAL.GetDataByCity("London");
 
         public double Longitude
         {
@@ -89,14 +84,27 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
-        public string Icon
+        public string IconName
         {
-            get => _model.LongDescription;
+            get => _model.IconName;
             set
             {
-                if (_model.LongDescription != value)
+                if (_model.IconName != value)
                 {
-                    _model.LongDescription = value;
+                    _model.IconName = value;
+                    OnPropertyChanged();
+
+                }
+            }
+        }
+        public string IconUrl
+        {
+            get => _model.IconUrl;
+            set
+            {
+                if (_model.IconUrl != value)
+                {
+                    _model.IconUrl = value;
                     OnPropertyChanged();
 
                 }
@@ -190,6 +198,32 @@ namespace Weather.ViewModelNamespace
                 }
             }
         }
+        public string Direct
+        {
+            get => _model.Direct;
+            set
+            {
+                if (_model.Direct != value)
+                {
+                    _model.Direct = value;
+                    OnPropertyChanged();
+
+                }
+            }
+        }
+        public string DirectIcon
+        {
+            get => _model.DirectIcon;
+            set
+            {
+                if (_model.DirectIcon != value)
+                {
+                    _model.DirectIcon = value;
+                    OnPropertyChanged();
+
+                }
+            }
+        }
         public int Sunrise
         {
             get => _model.Sunrise;
@@ -245,18 +279,15 @@ namespace Weather.ViewModelNamespace
 
         public void RefreshData(string city)
         {
-            _model = DAL.GetDataByCity(city);
+            _model = ModelNamespace.DAL.GetDataByCity(city);
             OnPropertyChanged();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-
 }
