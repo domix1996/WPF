@@ -1,0 +1,32 @@
+﻿<Window x:Class="Convertery.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:Convertery.Converters"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <converters:StringToNameConverter x:Key="StringToNameConverter" />
+        <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+        <converters:IntToDateConverter x:Key="IntToDateConverter" />
+        <converters:HexStringToColorConverter x:Key="HexStringToColorCoverter" />
+    </Window.Resources>
+    <StackPanel>
+        <!--Background="{Binding Kolor, Converter={StaticResource HexStringToColorCoverter}-->
+        <TextBlock>Podaj imię</TextBlock>
+        <TextBox Text="{Binding Imie, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBlock>Ile masz lat?</TextBlock>
+        <TextBox Text="{Binding Rok, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <!--<TextBlock>Twój ulubiuony kolor?</TextBlock>-->
+        <!--<TextBox Text="{Binding Kolor, UpdateSourceTrigger=PropertyChanged}"></TextBox>-->
+        <WrapPanel>
+            <TextBlock Text="Witaj, " />
+            <TextBlock Text="{Binding Imie, Converter={StaticResource StringToNameConverter}}"/>
+        </WrapPanel>
+        <WrapPanel Visibility="{Binding Rok, Converter={StaticResource IntToVisibilityConverter}}">
+            <TextBlock Text="Urodziłeś się w "></TextBlock>
+            <TextBlock Text="{Binding Rok, Converter={StaticResource IntToDateConverter}}"></TextBlock>
+        </WrapPanel>
+    </StackPanel>
+</Window>
