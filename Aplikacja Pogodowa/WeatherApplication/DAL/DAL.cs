@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using RestSharp;
@@ -29,17 +30,21 @@ namespace ModelNamespace
             if (deg >= 332.5 && deg <= 360)  return "N";
             return "error";
         }
-        public static WeatherModel GetDataByCity(string cityName="  ")
+        public static async Task<WeatherModel> GetDataByCity(string cityName="  ")
         {
-            var client = new RestClient("https://api.openweathermap.org");
+            RestRequest request =  new RestRequest();
+            IRestResponse<Global> response=new RestResponse<Global>();
+            await Task.Run(() =>
+            {
+                var client = new RestClient("https://api.openweathermap.org");
 
-            var request = new RestRequest("/data/2.5/weather");
-            request.AddParameter("q", cityName);
-            request.AddParameter("units", "metric");
-            //request.AddParameter("lang", "pl");
-            request.AddParameter("appid", "e535d78e2276a36aede2983e0aa08f44");
-            var response = client.Execute<Global>(request);
-
+                request = new RestRequest("/data/2.5/weather");
+                request.AddParameter("q", cityName);
+                request.AddParameter("units", "metric");
+                //request.AddParameter("lang", "pl");
+                request.AddParameter("appid", "e535d78e2276a36aede2983e0aa08f44");
+                 response = client.Execute<Global>(request);
+            });
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 DateTime date;

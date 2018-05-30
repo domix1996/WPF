@@ -23,10 +23,20 @@ namespace Ego
         public UserQuizWindow()
         {
             InitializeComponent();
+            //this.Player3Info.Visibility = Visibility.Collapsed;
+            this.Player4Info.Visibility = Visibility.Collapsed;
         }
 
-        private void SignC_OnGotFocus(object sender, RoutedEventArgs e)
+      
+
+        
+
+        private void AnswerSign_OnMouseEnter(object sender, MouseEventArgs e)
         {
+            TextBlock btn = sender as TextBlock;
+            btn.Text = "lol";
+            answerA.Background = btn.Background == Brushes.Red ? Brushes.LightGray : Brushes.Red;
+            signA.Background = signA.Background == Brushes.Red ? Brushes.LightGray : Brushes.Red;
         }
     }
 }

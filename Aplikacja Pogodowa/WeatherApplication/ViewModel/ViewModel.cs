@@ -6,7 +6,7 @@ namespace ViewModelNamespace
 {
     public class WeatherViewModel : INotifyPropertyChanged
     {
-        private WeatherModel _model { get; set; } = DAL.GetDataByCity("London");
+        private WeatherModel _model { get; set; } = DAL.GetDataByCity("London").Result;
 
         public double Longitude
         {
@@ -279,7 +279,7 @@ namespace ViewModelNamespace
 
         public void RefreshData(string city)
         {
-            _model = ModelNamespace.DAL.GetDataByCity(city);
+            _model = ModelNamespace.DAL.GetDataByCity(city).Result;
             OnPropertyChanged();
         }
 

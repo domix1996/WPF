@@ -24,7 +24,7 @@
             <Setter Property="FontSize" Value="24"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="Background" Value="Transparent"></Setter>
-            <Setter Property="Margin" Value="60,10,60,10"></Setter>
+            <Setter Property="Padding" Value="60,10,60,10"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
         <Style TargetType="TextBlock" x:Key="AnswerStyle">
@@ -35,7 +35,6 @@
             <Setter Property="Width" Value="250"></Setter>
             <Setter Property="Padding" Value="10,20,0,0"></Setter>
         </Style>
-
         <Style TargetType="TextBlock" x:Key="AnswerSignStyle">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -46,6 +45,18 @@
 
             <Setter Property="Height" Value="80"></Setter>
             <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="Margin" Value="60,0,0,0"></Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="PlayerStyle">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Padding" Value="20,0,10,0"></Setter>
+            <Setter Property="Background" Value="LightSlateGray"></Setter>
+
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="Width" Value="120"></Setter>
             <Setter Property="Margin" Value="60,0,0,0"></Setter>
 
         </Style>
@@ -62,10 +73,16 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid Row="0" ColumnSpan="2">
+        <Grid >
             <StackPanel>
                 <Label Style="{StaticResource ProgressLabelStyle}">Progress</Label>
                 <ProgressBar Style="{StaticResource ProgressBarStyle}" ></ProgressBar>
+            </StackPanel>
+        </Grid>
+        <Grid  Grid.Column="1">
+            <StackPanel>
+                <Label Style="{StaticResource ProgressLabelStyle}">Czas do końca</Label>
+                <Label Style="{StaticResource ProgressLabelStyle}" >15:00</Label>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0" ColumnSpan="2">
@@ -73,20 +90,19 @@
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" >
             <WrapPanel>
-                <TextBlock x:Name="signA"   Style="{StaticResource AnswerSignStyle}">A</TextBlock>
-                <TextBlock x:Name="answerA" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+                <TextBlock x:Name="signA"  MouseEnter="AnswerSign_OnMouseEnter" Style="{StaticResource AnswerSignStyle}">A</TextBlock>
+                <TextBlock x:Name="answerA"  MouseEnter="AnswerSign_OnMouseEnter" Style="{StaticResource AnswerStyle}">1900</TextBlock>
             </WrapPanel>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="1" >
+        <Grid Grid.Row="2" Grid.Column="1"  >
             <WrapPanel>
-                <TextBlock x:Name="signb"   Style="{StaticResource AnswerSignStyle}">B</TextBlock>
-                <TextBlock x:Name="answerB" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+                <TextBlock x:Name="signb"     MouseEnter="AnswerSign_OnMouseEnter" Style="{StaticResource AnswerSignStyle}">B</TextBlock>
+                <TextBlock x:Name="answerB"  MouseEnter="AnswerSign_OnMouseEnter" Style="{StaticResource AnswerStyle}">1900</TextBlock>
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="0" Margin="0,20,0,0">
-           
             <WrapPanel Grid.ColumnSpan="2">
-                <TextBlock x:Name="signC" GotFocus="SignC_OnGotFocus"  Style="{StaticResource AnswerSignStyle}">C</TextBlock>
+                <TextBlock x:Name="signC" Style="{StaticResource AnswerSignStyle}">C</TextBlock>
                 <TextBlock x:Name="answerC" Style="{StaticResource AnswerStyle}">1900</TextBlock>
             </WrapPanel>
         </Grid>
@@ -94,6 +110,30 @@
             <WrapPanel Margin="0,20,0,0">
                 <TextBlock x:Name="signD"   Style="{StaticResource AnswerSignStyle}">D</TextBlock>
                 <TextBlock x:Name="answerD" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+            <WrapPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <StackPanel Name="Player1Info">
+                    <TextBlock Style="{StaticResource PlayerStyle}">Gracz1</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">4 punkty</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">VOTED</TextBlock>
+                </StackPanel>
+                <StackPanel Name="Player2Info">
+                    <TextBlock Style="{StaticResource PlayerStyle}">Gracz2</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">4 punkty</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">VOTED</TextBlock>
+                </StackPanel>
+                <StackPanel Name="Player3Info">
+                    <TextBlock Style="{StaticResource PlayerStyle}">Gracz3</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">4 punkty</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">VOTED</TextBlock>
+                </StackPanel>
+                <StackPanel Name="Player4Info">
+                    <TextBlock Style="{StaticResource PlayerStyle}">Gracz4</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">4 punkty</TextBlock>
+                    <TextBlock Style="{StaticResource PlayerStyle}">VOTED</TextBlock>
+                </StackPanel>
             </WrapPanel>
         </Grid>
     </Grid>
