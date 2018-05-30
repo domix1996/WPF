@@ -1,8 +1,10 @@
-﻿using PlayerApp.Model;
+﻿using System.ComponentModel;
+using PlayerApp.Model;
 
 namespace PlayerApp.ViewModel
 {
-    public class QuestionViewModel
+   
+    public class QuestionViewModel : INotifyPropertyChanged
     {
         private QuestionModel _model = new QuestionModel()
         {
@@ -20,6 +22,7 @@ namespace PlayerApp.ViewModel
         {
             get => _model.Answers[0];
             set => _model.Answers[0] = value;
+
         }
         public string AnswerB
         {
@@ -46,5 +49,13 @@ namespace PlayerApp.ViewModel
             get => _model.QuestionText;
             set => _model.QuestionText = value;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public QuestionViewModel()
+        {
+            
+        }
+
     }
 }
