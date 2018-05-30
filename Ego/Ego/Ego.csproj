@@ -56,10 +56,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LobbyWindow.xaml.cs">
+      <DependentUpon>LobbyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Question.cs" />
+    <Compile Include="UserLogingWindow.xaml.cs">
+      <DependentUpon>UserLogingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserQuizVM.cs" />
     <Compile Include="UserQuizWindow.xaml.cs">
       <DependentUpon>UserQuizWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="LobbyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +83,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserLogingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserQuizWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

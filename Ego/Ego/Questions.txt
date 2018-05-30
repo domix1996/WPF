@@ -1,11 +1,11 @@
 ﻿3
-Co znaczy R w RGB
+Co znaczy R w RGB?
 1
 Red
 Blue
 Green
 White
-Ile to jest 2+2
+Ile to jest 2+2?
 2
 2
 3

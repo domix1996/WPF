@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ego"
+        xmlns:vm="clr-namespace:EgoVM"
         mc:Ignorable="d"
         Title="UserQuizWindow" Height="700" Width="900">
     <Window.Resources>
@@ -27,15 +28,15 @@
             <Setter Property="Margin" Value="60,10,60,10"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
-        <Style TargetType="TextBlock" x:Key="AnswerStyle">
+        <Style TargetType="Button" x:Key="AnswerStyle">
             <Setter Property="FontSize" Value="24"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="Background" Value="LightSlateGray"></Setter>
             <Setter Property="Height" Value="80"></Setter>
             <Setter Property="Width" Value="250"></Setter>
-            <Setter Property="Padding" Value="10,20,0,0"></Setter>
+            <Setter  Property="BorderThickness" Value="0"></Setter>
+            <Setter  Property="Padding" Value="0,5,10,10"></Setter>
         </Style>
-
         <Style TargetType="TextBlock" x:Key="AnswerSignStyle">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -49,8 +50,10 @@
             <Setter Property="Margin" Value="60,0,0,0"></Setter>
 
         </Style>
+        <vm:UserQuizVM x:Key="VM"></vm:UserQuizVM>
+
     </Window.Resources>
-    <Grid Background="DarkCyan">
+    <Grid Background="DarkCyan" >
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*" ></RowDefinition>
             <RowDefinition Height="2*" ></RowDefinition>
@@ -63,37 +66,48 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Row="0" ColumnSpan="2">
-            <StackPanel>
+            <StackPanel DataContext="{StaticResource VM}">
                 <Label Style="{StaticResource ProgressLabelStyle}">Progress</Label>
-                <ProgressBar Style="{StaticResource ProgressBarStyle}" ></ProgressBar>
+                <ProgressBar Style="{StaticResource ProgressBarStyle}"
+                             Maximum="{Binding Total}"
+                             Value="{Binding QuestionNumber}"
+                ></ProgressBar>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0" ColumnSpan="2">
-            <TextBlock Style="{StaticResource QuestionStyle}" >To jestbardzo fajne oraz bardzo długie  przykładowe pytanie Lorem Ipsum em Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</TextBlock>
+        <Grid Grid.Row="1" Grid.Column="0" ColumnSpan="2" DataContext="{StaticResource VM}">
+            <TextBlock Style="{StaticResource QuestionStyle}" 
+                       Text="{Binding QuestionText}"></TextBlock>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="0" >
+        <Grid Grid.Row="2" Grid.Column="0" DataContext="{StaticResource VM}">
             <WrapPanel>
-                <TextBlock x:Name="signA"   Style="{StaticResource AnswerSignStyle}">A</TextBlock>
-                <TextBlock x:Name="answerA" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+                <TextBlock Style="{StaticResource AnswerSignStyle}">A</TextBlock>
+                <Button Style="{StaticResource AnswerStyle}"
+                           Content="{Binding AnswerA}">
+                </Button>
             </WrapPanel>
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="1" >
+        <Grid Grid.Row="2" Grid.Column="1" DataContext="{StaticResource VM}" >
             <WrapPanel>
-                <TextBlock x:Name="signb"   Style="{StaticResource AnswerSignStyle}">B</TextBlock>
-                <TextBlock x:Name="answerB" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+                <TextBlock Style="{StaticResource AnswerSignStyle}">B</TextBlock>
+                <Button Style="{StaticResource AnswerStyle}"
+                        Content="{Binding AnswerB}">
+                </Button>
             </WrapPanel>
         </Grid>
-        <Grid Grid.Row="3" Grid.Column="0" Margin="0,20,0,0">
-           
+        <Grid Grid.Row="3" Grid.Column="0" Margin="0,20,0,0" DataContext="{StaticResource VM}">
             <WrapPanel Grid.ColumnSpan="2">
-                <TextBlock x:Name="signC" GotFocus="SignC_OnGotFocus"  Style="{StaticResource AnswerSignStyle}">C</TextBlock>
-                <TextBlock x:Name="answerC" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+                <TextBlock GotFocus="SignC_OnGotFocus"  Style="{StaticResource AnswerSignStyle}">C</TextBlock>
+                <Button Style="{StaticResource AnswerStyle}"
+                        Content="{Binding AnswerC}">
+                </Button>
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1" >
-            <WrapPanel Margin="0,20,0,0">
-                <TextBlock x:Name="signD"   Style="{StaticResource AnswerSignStyle}">D</TextBlock>
-                <TextBlock x:Name="answerD" Style="{StaticResource AnswerStyle}">1900</TextBlock>
+            <WrapPanel Margin="0,20,0,0" DataContext="{StaticResource VM}">
+                <TextBlock Style="{StaticResource AnswerSignStyle}">D</TextBlock>
+                <Button Style="{StaticResource AnswerStyle}"
+                        Content="{Binding AnswerD}">
+                </Button>
             </WrapPanel>
         </Grid>
     </Grid>

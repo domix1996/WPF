@@ -11,26 +11,26 @@ namespace Ego
     {
         public int QuestionNumber { get; set; }
         private int correct;
-
         public int Correct
         {
             get => correct;
             set
             {
-                if (value < 0 && value < 5)
+                if (value > 0 && value < 5)
                     correct = value - 1; //w pliku mam 1,2,3,4 ale tablica zaczyna się od 0 
                 else throw new Exception("Correct answer question is diffrent than 1,2,3,4");
             }
         }
-
+        public string QuestionText { get; set; }
+        public int Total { get; set; }
         public string[] Answers { get; set; }
     }
 
     public class QuestionsContainer
     {
-        public IEnumerable<Question> Questions { get; set; } = new List<Question>();
+        public List<Question> Questions { get; set; } = new List<Question>();
 
-        public IEnumerable<Question> GetQuestionsFromTxt(string path)
+        public List<Question> GetQuestionsFromTxt(string path)
         {
             using (var sr = new StreamReader(path))
             {
@@ -42,6 +42,8 @@ namespace Ego
                     temp = new Question()
                     {
                         QuestionNumber = i,
+                        QuestionText = sr.ReadLine(),
+                        Total=n,
                         Correct = Int32.Parse(sr.ReadLine()),
                         Answers = new[]
                         {
