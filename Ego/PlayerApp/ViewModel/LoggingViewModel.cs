@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace PlayerApp.ViewModel
 {
-    public class LoggingViewModel
+    public class LoggingViewModel:INotifyPropertyChanged
     {
         private PlayerApp.Model.LoggingModel _model = new PlayerApp.Model.LoggingModel()
         {
+            MyIPAddress  = Dns.GetHostEntry(Dns.GetHostName()).AddressList[1],
             HostAddress = new IPAddress(0x2414188f),
             PlayerName = "Antriadus",
             PlayerNumber = 2
@@ -34,6 +35,12 @@ namespace PlayerApp.ViewModel
         {
             get => _model.PlayerNumber;
             set => _model.PlayerNumber = value;
+        }
+
+        public IPAddress MyIPAddress
+        {
+            get => _model.MyIPAddress;
+            set => _model.MyIPAddress = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
