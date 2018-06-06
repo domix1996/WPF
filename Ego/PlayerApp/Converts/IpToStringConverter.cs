@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Windows;
 using System.Windows.Data;
 
 namespace PlayerApp.Converts
@@ -9,9 +10,10 @@ namespace PlayerApp.Converts
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(string)) return null;
+            if ((targetType != typeof(string) ||value is null ))return null;
             IPAddress ip = value as IPAddress;
             return ip.ToString();
+           
 
         }
 
@@ -19,8 +21,18 @@ namespace PlayerApp.Converts
         {
             if (targetType != typeof(IPAddress)) return null;
             string adres = value as string;
+            IPAddress ip;
+            try
+            {
+               ip = IPAddress.Parse(adres);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return null;
+            }
 
-            return IPAddress.Parse(adres);
+            return ip;
         }
     }
 }

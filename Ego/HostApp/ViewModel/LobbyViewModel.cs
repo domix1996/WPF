@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Windows.Controls;
+using System.Windows.Input;
 using HostApp.Model;
 
 namespace HostApp.ViewModel
@@ -39,7 +40,7 @@ namespace HostApp.ViewModel
             }
 
         };
-
+        #region ModelProperties
         public IPAddress HostIp
         {
             get => _model.HostIP;
@@ -53,7 +54,7 @@ namespace HostApp.ViewModel
                     return _model.Players[0].PlayerName;
                 else return null;
             }
-            private set => _model.Players[0].PlayerName=value;
+            private set => _model.Players[0].PlayerName = value;
         }
         public string PlayerTwoName
         {
@@ -126,6 +127,13 @@ namespace HostApp.ViewModel
             }
             private set => _model.Players[3].PlayerIp = value;
         }
+        #endregion
+        #region Commands    
+        
+        private ICommand _testCommand;
 
+        public ICommand Test => _testCommand ?? (_testCommand = new TestCommand());
+
+        #endregion
     }
 }

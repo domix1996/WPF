@@ -60,8 +60,8 @@
             <TextBlock Style="{StaticResource LabelsStyle}"> Twoje IP</TextBlock>
             <TextBlock Style="{StaticResource InfoStyle }" Text="{Binding MyIPAddress,Mode=TwoWay,Converter={StaticResource IpToStringConverter}}"/>
             <TextBlock Style="{StaticResource LabelsStyle}"> Adres Hosta</TextBlock>
-            <TextBlock Style="{StaticResource InfoStyle }" Text="{Binding HostAdres,Mode=TwoWay,Converter={StaticResource IpToStringConverter}}"/>
-            <Button Style="{StaticResource ButtonStyle}">Połącz z serwerem</Button>
+            <TextBox Style="{StaticResource InputsStyle }" Text="{Binding HostAdres,Mode=TwoWay,Converter={StaticResource IpToStringConverter}}"/>
+            <Button Command="{Binding ConnectToServer}" Style="{StaticResource ButtonStyle}">Połącz z serwerem</Button>
         </StackPanel>
     </Grid>
 </Window>

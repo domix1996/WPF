@@ -8,10 +8,10 @@ namespace PlayerApp.View
     /// <summary>
     /// Interaction logic for InGame.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class InGame : Window
     {
         public char answer;
-        public MainWindow()
+        public InGame()
         {
             InitializeComponent();
         }

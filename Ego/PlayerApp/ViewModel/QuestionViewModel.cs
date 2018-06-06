@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
+using System.Windows.Data;
+using System.Windows.Input;
 using PlayerApp.Model;
 
 namespace PlayerApp.ViewModel
 {
-   
+
     public class QuestionViewModel : INotifyPropertyChanged
     {
         private QuestionModel _model = new QuestionModel()
@@ -17,7 +19,7 @@ namespace PlayerApp.ViewModel
             QuestionText = "Jaki jest wynik równania 2+2"
         };
 
-
+        #region  ModelPropetries
         public string AnswerA
         {
             get => _model.Answers[0];
@@ -49,13 +51,12 @@ namespace PlayerApp.ViewModel
             get => _model.QuestionText;
             set => _model.QuestionText = value;
         }
+        #endregion
 
+       
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public QuestionViewModel()
-        {
-            
-        }
+        
 
     }
 }

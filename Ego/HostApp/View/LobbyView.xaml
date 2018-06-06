@@ -55,7 +55,7 @@
             <TextBlock Text="{Binding PlayerFourIp ,Converter={StaticResource IpToStringConverter}}"  Style="{StaticResource PlayerInfoStyle}" > </TextBlock >
         </StackPanel >
         <StackPanel Grid.Column="2" >
-            <Button Style="{StaticResource ButtonStyle}">Graj</Button>
+            <Button Command="{Binding Test}" CommandParameter="12" Style="{StaticResource ButtonStyle}">Graj</Button>
             <TextBlock Text="{Binding PlayerOneName }"   Style="{StaticResource PlayerInfoStyle}" > </TextBlock >
             <TextBlock Text="{Binding PlayerTwoName }"   Style="{StaticResource PlayerInfoStyle}" > </TextBlock >
             <TextBlock Text="{Binding PlayerThreeName }"  Style="{StaticResource PlayerInfoStyle}" > </TextBlock >

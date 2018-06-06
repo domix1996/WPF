@@ -62,6 +62,7 @@
     <Compile Include="Converts\IpToStringConverter.cs" />
     <Compile Include="Model\LoggingModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModel\Commands.cs" />
     <Compile Include="ViewModel\LoggingViewModel.cs" />
     <Compile Include="ViewModel\QuestionViewModel.cs" />
     <Compile Include="View\LoggingView.xaml.cs">
