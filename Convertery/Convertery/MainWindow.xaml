@@ -10,23 +10,39 @@
         <converters:StringToNameConverter x:Key="StringToNameConverter" />
         <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
         <converters:IntToDateConverter x:Key="IntToDateConverter" />
-        <converters:HexStringToColorConverter x:Key="HexStringToColorCoverter" />
+        <converters:StringsToColorConverter x:Key="RGBStringsToColorCoverter" />
     </Window.Resources>
     <StackPanel>
         <!--Background="{Binding Kolor, Converter={StaticResource HexStringToColorCoverter}-->
-        <TextBlock>Podaj imię</TextBlock>
+        <!--<TextBlock>Podaj imię</TextBlock>
         <TextBox Text="{Binding Imie, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock>Ile masz lat?</TextBlock>
-        <TextBox Text="{Binding Rok, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <!--<TextBlock>Twój ulubiuony kolor?</TextBlock>-->
-        <!--<TextBox Text="{Binding Kolor, UpdateSourceTrigger=PropertyChanged}"></TextBox>-->
-        <WrapPanel>
+        <TextBox Text="{Binding Rok, UpdateSourceTrigger=PropertyChanged}"></TextBox>-->
+        <TextBlock>R 00-FF:</TextBlock>
+        <TextBox Width="50" HorizontalAlignment="Left"  Text="{Binding R, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBlock>G 00-FF:</TextBlock>
+        <TextBox Width="50" HorizontalAlignment="Left" Text="{Binding G, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBlock>B 00-FF:</TextBlock>
+        <TextBox Width="50" HorizontalAlignment="Left" Text="{Binding B, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Margin="0,20,0,0"  
+                 Width="200" 
+                 Height="200"
+                 HorizontalAlignment="Left" >
+                <TextBox.Background>
+                    <MultiBinding Converter="{StaticResource RGBStringsToColorCoverter}">
+                    <Binding Path="R" />
+                    <Binding Path="G" />
+                    <Binding Path="B" />
+                    </MultiBinding>
+                </TextBox.Background>
+                 </TextBox>
+        <!--<WrapPanel>
             <TextBlock Text="Witaj, " />
             <TextBlock Text="{Binding Imie, Converter={StaticResource StringToNameConverter}}"/>
         </WrapPanel>
         <WrapPanel Visibility="{Binding Rok, Converter={StaticResource IntToVisibilityConverter}}">
             <TextBlock Text="Urodziłeś się w "></TextBlock>
             <TextBlock Text="{Binding Rok, Converter={StaticResource IntToDateConverter}}"></TextBlock>
-        </WrapPanel>
+        </WrapPanel>-->
     </StackPanel>
 </Window>

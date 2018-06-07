@@ -21,7 +21,7 @@ namespace Convertery
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ViewModel personVM=new ViewModel(){Imie="Jan"};
+        public ViewModel personVM=new ViewModel() {R="10",G="10",B="10"};
         public MainWindow()
 
         {

@@ -56,7 +56,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\IntToDateConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
-    <Compile Include="Converters\HexStringToColorConverter.cs" />
+    <Compile Include="Converters\StringsToColorConverter.cs" />
     <Compile Include="Converters\StringToNameConverter.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">

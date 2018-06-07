@@ -4,8 +4,8 @@ namespace ConverteryVM
 {
     public class ViewModel
     {
-        public string Imie { get; set; }
-        public int? Rok { get; set; }
-        public string Kolor { get; set; }
+        public string R { get; set; }
+        public string G { get; set; }
+        public string B { get; set; }
     }
 }
