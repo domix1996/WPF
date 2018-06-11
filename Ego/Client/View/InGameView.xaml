@@ -1,0 +1,85 @@
+﻿<Window x:Class="Client.View.InGameView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.View"
+        xmlns:vm="clr-namespace:Client.ViewModel"
+        Height="450" Width="800">
+    <Window.Resources>
+        <vm:InGameViewModel x:Key="InGameVM"></vm:InGameViewModel>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource InGameVM}" Background="DarkCyan">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*" ></RowDefinition>
+            <RowDefinition Height="2*" ></RowDefinition>
+            <RowDefinition Height="2*" ></RowDefinition>
+            <RowDefinition Height="2*" ></RowDefinition>
+            <RowDefinition Height="1*" ></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Row="0" ColumnSpan="2">
+            <TextBlock ></TextBlock>
+            <StackPanel>
+                <Label Style="{StaticResource ProgressLabelStyle}">Progress</Label>
+                <ProgressBar Style="{StaticResource ProgressBarStyle}"
+                             Maximum="{Binding QuestionNumberTotal}"
+                             Value="{Binding QuestionNumber}"
+                ></ProgressBar>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" ColumnSpan="2">
+            <TextBlock Style="{StaticResource QuestionStyle}"
+                       Text="{Binding QuestionText}"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <WrapPanel>
+                <TextBlock Style="{StaticResource AnswerSignStyle}">A</TextBlock>
+                <Button 
+                   Command="{Binding SendAnswerToSerwerCommand}"
+                    CommandParameter="MyAnswerIs A"
+                        Style="{StaticResource AnswerStyle}"
+                           Content="{Binding AnswerA}">
+                </Button>
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1" >
+            <WrapPanel>
+                <TextBlock Style="{StaticResource AnswerSignStyle}">B</TextBlock>
+                <Button Name="B"
+                        Command="{Binding SendAnswerToSerwerCommand}"
+                        CommandParameter="MyAnswerIs B" 
+                        Style="{StaticResource AnswerStyle}"
+                        Content="{Binding AnswerB}">
+                </Button>
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0" Margin="0,20,0,0">
+            <WrapPanel Grid.ColumnSpan="2">
+                <TextBlock   Style="{StaticResource AnswerSignStyle}">C</TextBlock>
+                <Button Name="C"
+                        Command="{Binding SendAnswerToSerwerCommand}"
+                        CommandParameter="MyAnswerIs C"
+                        Style="{StaticResource AnswerStyle}"
+                        Content="{Binding AnswerC}">
+                </Button>
+            </WrapPanel>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1" >
+            <WrapPanel Margin="0,20,0,0">
+                <TextBlock Style="{StaticResource AnswerSignStyle}">D</TextBlock>
+                <Button Name="D"  
+                        Command="{Binding SendAnswerToSerwerCommand}"
+                        CommandParameter="MyAnswerIs D" Style="{StaticResource AnswerStyle}"
+                        Content="{Binding AnswerD}">
+                </Button>
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Window>

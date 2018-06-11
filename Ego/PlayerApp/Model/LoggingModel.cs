@@ -1,13 +1,14 @@
 ﻿using System.Net;
+using System.Net.Sockets;
 
 namespace PlayerApp.Model
 {
     public class LoggingModel
     {
-        public IPAddress HostAddress { get; set; }
-        public IPAddress MyIPAddress { get; set; }
-        public string PlayerName { get; set; }
-        public int PlayerNumber { get; set; }
+        public string MyName { get; set; }
+        public string HostAddress { get; set; }
+        public int HostPort { get; set; }
+        public string MyIpAddress { get; set; }
 
     }
 }

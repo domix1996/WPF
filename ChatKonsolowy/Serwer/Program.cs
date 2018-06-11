@@ -30,8 +30,8 @@ public class Player : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
-
 }
+
 class Program
 {
     static readonly object _lock = new object();
@@ -45,9 +45,10 @@ class Program
         TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
         ServerSocket.Start();
 
-        while (true)//czekamy aż dojdzie nowy klient i wtedy go dodajemy 
+        while (true)//czekamy aĹĽ dojdzie nowy klient i wtedy go dodajemy 
         {
             TcpClient client = ServerSocket.AcceptTcpClient();
+
             lock (_lock) list_clients.Add(count, client);
             lock (_lock) PlayersList.Add(count, new Player(count, client));
             Console.WriteLine("Someone connected!!");
@@ -60,7 +61,6 @@ class Program
             t.Start(count);
             Console.WriteLine(count);
             count++;
-
         }
     }
 
@@ -70,8 +70,7 @@ class Program
 
         Player player = PlayersList[ID];
 
-
-        while (true)//czytamy co nam wysyła klient i przetwarzamy
+        while (true)//czytamy co nam wysyĹ‚a klient i przetwarzamy
         {
             NetworkStream stream = player.PlayerTcpClient.GetStream();
             byte[] received = new byte[1024];
@@ -87,7 +86,7 @@ class Program
         //client.Close();
     }
     /// <summary>
-    /// nie wysyłaj do clientExcluded,bo od niego dostałeś
+    /// nie wysyĹ‚aj do clientExcluded,bo od niego dostaĹ‚eĹ›
     /// </summary>
     /// <param name="data"></param>
     /// <param name="clientExcluded"></param>
@@ -104,10 +103,11 @@ class Program
             }
         }
     }
+
     public static void DataBroadcast(string data)
     {
-        byte[] buffer = TransformToCezar(Encoding.ASCII.GetBytes(data + Environment.NewLine),10);
-       
+        byte[] buffer = TransformToCezar(Encoding.ASCII.GetBytes(data + Environment.NewLine), 10);
+
         lock (_lock)
         {
             for (int i = 0; i < PlayersList.Count; i++)
@@ -116,6 +116,7 @@ class Program
             }
         }
     }
+
     public static void SentDataToPlayer(string data, Player player)
     {
         lock (_lock)
@@ -126,6 +127,7 @@ class Program
             stream.Write(buffer, 0, buffer.Length);
         }
     }
+
     public static void SentDataToPlayer(byte[] data, Player player)
     {
         lock (_lock)
@@ -151,12 +153,13 @@ class Program
         string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
         string command = data.Split()[0];
         string commandValue = data.Substring(data.IndexOf(' ') >= 0 ? data.IndexOf(' ') : 0);
-        switch (command)//rozpoznajemy rządanie od gracza
+
+        switch (command)//rozpoznajemy rzÄ…danie od gracza
         {
-            case "MyNameIs": //gracz zmienia swoją nazwę
+            case "MyNameIs": //gracz zmienia swojÄ… nazwÄ™
                 {
                     DataBroadcast(
-                        $"\nGracz {player.PlayerName} o IP {player.PlayerTcpClient.Client.RemoteEndPoint} zmienił nazwę na {commandValue}");
+                        $"\nGracz {player.PlayerName} o IP {player.PlayerTcpClient.Client.RemoteEndPoint} zmieniĹ‚ nazwÄ™ na {commandValue}");
                     player.PlayerName = commandValue;
                     break;
                 }
@@ -168,12 +171,13 @@ class Program
                 }
                 break;
             case "NextQuestion": //gracz udziela odpowiedzi
-            {
-                SendNextQuestionToPlayers();
-            }
+                {
+                    SendNextQuestionToPlayers();
+                }
                 break;
         }
     }
+
     static public void SendNextQuestionToPlayers()
     {
         string question = "Ile to jest 2+2?";
@@ -182,6 +186,8 @@ class Program
         string answerB = "3";
         string answerC = "4";
         string answerD = "5";
+        string questionNumber = "10";
+        string questionTotal = "8";
         StringBuilder sb = new StringBuilder();
         sb.Append("ThisIsNewQuestion ");
         sb.Append($"CorrectAnswer {correctAnswer}+=+");
@@ -190,12 +196,15 @@ class Program
         sb.Append($"AnswerB wynik to {answerB}+=+");
         sb.Append($"AnswerC wynik to {answerC}+=+");
         sb.Append($"AnswerD wynik to {answerD}+=+");
+        sb.Append($"Numer pytania to {questionNumber}+=+");
+        sb.Append($"Ilosc pytan to {questionTotal}+=+");
         DataBroadcast(sb.ToString());
     }
-     
-    static public byte[] TransformToCezar(byte[]data,byte i)
+
+    static public byte[] TransformToCezar(byte[] data, byte i)
     {
-        byte[] result =new byte[data.Length];
+        byte[] result = new byte[data.Length];
+
         for (int j = 0; j < data.Length; j++)
         {
             result[j] = data[j];
@@ -204,15 +213,15 @@ class Program
 
         return result;
     }
-    static  public byte[] TransformFromCezar(byte[] data, byte i)
+
+    static public byte[] TransformFromCezar(byte[] data, byte i)
     {
         byte[] result = new byte[data.Length];
+
         for (int j = 0; j < data.Length; j++)
         {
             result[j] = data[j];
             result[j] -= i;
         }
 
-        return result;
-    }
-}
+   

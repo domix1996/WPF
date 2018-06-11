@@ -27,6 +27,11 @@ namespace PlayerApp.ViewModel
             get => _model.HostAddress;
             set => _model.HostAddress = value;
         }
+        public IPAddress HostPort
+        {
+            get => _model.HostPort;
+            set => _model.HostPort = value;
+        }
 
         public string PlayerName
         {

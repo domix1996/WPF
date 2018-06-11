@@ -1,0 +1,209 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.Versioning;
+using System.Text;
+using System.Threading;
+using CezarCode;
+using SerwerConsola;
+
+
+namespace SerwerKonsola
+{
+
+
+
+    class Program
+    {
+        static readonly object _lock = new object();
+        static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
+        static Dictionary<int, Player> PlayersList = new Dictionary<int, Player>();
+        static int answerCount = 0;
+
+
+        static void Main(string[] args)
+        {
+            int count = 0;
+            TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
+            ServerSocket.Start();
+
+            while (true) //czekamy aĹĽ dojdzie nowy klient i wtedy go dodajemy 
+            {
+                TcpClient client = ServerSocket.AcceptTcpClient();
+
+                lock (_lock) list_clients.Add(count, client);
+                lock (_lock) PlayersList.Add(count, new Player(count, client));
+                Console.WriteLine("Someone connected!!");
+                //Console.WriteLine("List of connected users");
+                //foreach (var lc in list_clients)
+                //{
+                //    Console.WriteLine(lc.Value.Client.RemoteEndPoint);
+                //}
+                Thread t = new Thread(HandleClient);
+                t.Start(count);
+                Console.WriteLine(count);
+                count++;
+            }
+        }
+
+        public static void HandleClient(object id)
+        {
+            int ID = (int)id;
+
+            Player player = PlayersList[ID];
+
+            while (true) //czytamy co nam wysyĹ‚a klient i przetwarzamy
+            {
+                NetworkStream stream = player.PlayerTcpClient.GetStream();
+                byte[] received = new byte[1024];
+                int byte_count = stream.Read(received, 0, received.Length);
+
+                if (byte_count == 0) break;
+
+                Process(received, player);
+            }
+
+            //lock (_lock) list_clients.Remove(ID);
+            //client.Client.Shutdown(SocketShutdown.Both);
+            //client.Close();
+        }
+
+        /// <summary>
+        /// nie wysyĹ‚aj do clientExcluded,bo od niego dostaĹ‚eĹ›
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="clientExcluded"></param>
+        public static void DataBroadcast(string data, Player playerExcluded)
+        {
+            byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
+
+            lock (_lock)
+            {
+                for (int i = 0; i < PlayersList.Count; i++)
+                {
+                    if (PlayersList[i] != playerExcluded)
+                        SentDataToPlayer(data, PlayersList[i]);
+                }
+            }
+        }
+
+        public static void DataBroadcast(string data)
+        {
+            byte[] buffer = CezarCode.CezarCode.TransformToCezar(Encoding.ASCII.GetBytes(data + Environment.NewLine), 10);
+
+            lock (_lock)
+            {
+                for (int i = 0; i < PlayersList.Count; i++)
+                {
+                    SentDataToPlayer(buffer, PlayersList[i]);
+                }
+            }
+        }
+
+        public static void SentDataToPlayer(string data, Player player)
+        {
+            lock (_lock)
+            {
+                byte[] buffer = CezarCode.CezarCode.TransformToCezar(Encoding.ASCII.GetBytes(data + Environment.NewLine), 10);
+
+                NetworkStream stream = player.PlayerTcpClient.GetStream();
+                stream.Write(buffer, 0, buffer.Length);
+            }
+        }
+
+        public static void SentDataToPlayer(byte[] data, Player player)
+        {
+            lock (_lock)
+            {
+                NetworkStream stream = player.PlayerTcpClient.GetStream();
+                stream.Write(CezarCode.CezarCode.TransformToCezar(data, 10), 0, data.Length);
+            }
+        }
+
+        //public static void Process(byte[] receivedBytes   , TcpClient client)
+        //{
+        //    string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
+        //    if (data == "A")
+        //    {
+        //        DataBroadcast($"Odpowiedz gracza to A", client);
+        //    }
+        //    if (data == "B")
+        //    {
+        //        DataBroadcast($"Odpowiedz gracza to B", client);
+        //    }
+        //}
+        public static void Process(byte[] receivedBytes, Player player)
+        {
+            string data = System.Text.Encoding.UTF8.GetString(CezarCode.CezarCode.TransformFromCezar(receivedBytes, 10)).Replace("\0", "");
+            string command = data.Split()[0];
+            string commandValue = data.Substring(data.IndexOf(' ') >= 0 ? data.IndexOf(' ') : 0);
+
+            switch (command) //rozpoznajemy rzÄ…danie od gracza
+            {
+                case "MyNameIs": //gracz zmienia swoją nazwę
+                    {
+                        // DataBroadcast(
+                        Console.WriteLine($"\n{player.PlayerName}  zmienił nazwę  na {commandValue}");
+                        player.PlayerName = commandValue;
+                        break;
+                    }
+
+                case "MyAnswerIs": //gracz udziela odpowiedzi
+                    {
+                        player.LastAnswer = commandValue[1];
+                        Console.WriteLine($"\n {player.PlayerName}: Moja odpowiedz to {player.LastAnswer}");
+                        answerCount++;
+                        if (answerCount == 2)
+                        {
+                            answerCount = 0;
+                            for (int i = 0; i < 2; i++)
+                            {
+                                player = PlayersList[i];
+                                if (player.LastAnswer=='A') SentDataToPlayer(Resources.GoodAnswerString, player);
+                                else SentDataToPlayer(Resources.BadAnswerString, player);
+                            }
+                        }
+                       
+                    }
+                    break;
+                case "NextQuestion": //gracz udziela odpowiedzi
+                    {
+                        SendNextQuestionToPlayers();
+                    }
+                    break;
+            }
+        }
+
+        static public void SendNextQuestionToPlayers()
+        {
+            string question = "Ile to jest 2+2?";
+            string correctAnswer = "A";
+            string answerA = "2";
+            string answerB = "3";
+            string answerC = "4";
+            string answerD = "5";
+            string questionNumber = "10";
+            string questionTotal = "8";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("ThisIsNewQuestion ");
+            sb.Append($"CorrectAnswer {correctAnswer}+=+");
+            sb.Append($"Question {question}+=+");
+            sb.Append($"AnswerA wynik to {answerA}+=+");
+            sb.Append($"AnswerB wynik to {answerB}+=+");
+            sb.Append($"AnswerC wynik to {answerC}+=+");
+            sb.Append($"AnswerD wynik to {answerD}+=+");
+            sb.Append($"Numer pytania to {questionNumber}+=+");
+            sb.Append($"Ilosc pytan to {questionTotal}+=+");
+            DataBroadcast(sb.ToString());
+        }
+
+
+    }
+
+
+}

@@ -69,7 +69,6 @@ namespace KlientWPF
                 DisconnectButton.IsEnabled = true;
                 SendButton.IsEnabled = true;
                 ConnectButton.IsEnabled = false;
-
                 threadReceive = new Thread(o => ReceiveData((TcpClient)o));
                 threadReceive.Start(client);
                 threadSend = new Thread(o => SendData((TcpClient)o));
