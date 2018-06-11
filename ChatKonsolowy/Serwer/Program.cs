@@ -172,6 +172,11 @@ class Program
                 SendNextQuestionToPlayers();
             }
                 break;
+            default:
+            {
+                    DataBroadcast(data);
+            }
+                break;
         }
     }
     static public void SendNextQuestionToPlayers()
