@@ -175,6 +175,11 @@ class Program
                     SendNextQuestionToPlayers();
                 }
                 break;
+            default:
+            {
+                    DataBroadcast(data);
+            }
+                break;
         }
     }
 

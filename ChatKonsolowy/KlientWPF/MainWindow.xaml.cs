@@ -133,7 +133,7 @@ namespace KlientWPF
             string data = System.Text.Encoding.UTF8.GetString(TransformFromCezar(receivedBytes, 10));
             string command = data.Split()[0];
             string commandValue = data.Substring(data.IndexOf(' ') >= 0 ? data.IndexOf(' ') : 0);
-            switch (command) //rozpoznajemy rządanie od gracza
+            switch (command) //rozpoznajemy rządanie od graczaz
             {
                 case "ThisIsNewQuestion": //gracz udziela odpowiedzi
                     {
@@ -143,22 +143,21 @@ namespace KlientWPF
                         string answerB = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[3].Split()[3];
                         string answerC = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[4].Split()[3];
                         string answerD = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[5].Split()[3];
-
+                        vm.Chat = "Nowe Pytanie";
                     }
                     break;
-                    //"CorrectAnswer A+=+Question Ile to jest 2+2?+=+AnswerA wynik to 2+=+AnswerB wynik to 3+=+AnswerC wynik to 4+=+AnswerD wynik to 5\r\n"
 
-                    {
+                default:
+                    vm.Chat = "data";
 
-
-
-                    }
+                    break;
             }
         }
         static public byte[] TransformToCezar(byte[] data, byte i)
         {
             byte[] result = new byte[data.Length];
-            for (int j = 0; j < data.Length; j++)
+            for (int j = 0;
+            j < data.Length; j++)
             {
                 result[j] = data[j];
                 result[j] += i;
