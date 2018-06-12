@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.View"
         xmlns:vm="clr-namespace:Client.ViewModel"
-        Height="450" Width="800">
+        xmlns:converts="clr-namespace:Client.Converts"
+        Height="700" Width="800">
     <Window.Resources>
         <vm:InGameViewModel x:Key="InGameVM"></vm:InGameViewModel>
+        <converts:StringToVisibilityConverter x:Key="StringToVisibilityConverter"></converts:StringToVisibilityConverter>
+        <converts:AnswerCharToBool x:Key="AnswerCharToBool"></converts:AnswerCharToBool>
+        <converts:AnswerCharToBackgroundColor x:Key="AnswerCharToBackgroundColor"></converts:AnswerCharToBackgroundColor>
+
+        
+
     </Window.Resources>
     <Grid DataContext="{StaticResource InGameVM}" Background="DarkCyan">
 
@@ -16,7 +23,7 @@
             <RowDefinition Height="2*" ></RowDefinition>
             <RowDefinition Height="2*" ></RowDefinition>
             <RowDefinition Height="2*" ></RowDefinition>
-            <RowDefinition Height="1*" ></RowDefinition>
+            <RowDefinition Height="2*" ></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -42,17 +49,27 @@
             <WrapPanel>
                 <TextBlock Style="{StaticResource AnswerSignStyle}">A</TextBlock>
                 <Button 
-                   Command="{Binding SendAnswerToSerwerCommand}"
+                   IsEnabled="{Binding MyAnswer,Converter=
+                                    {StaticResource AnswerCharToBool},ConverterParameter='A'}"
+                                    
+
+                    Command="{Binding SendAnswerToSerwerCommand}"
                     CommandParameter="MyAnswerIs A"
-                        Style="{StaticResource AnswerStyle}"
-                           Content="{Binding AnswerA}">
+
+                    Style="{StaticResource AnswerStyle}"
+                    Content="{Binding AnswerA}">
                 </Button>
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1" >
             <WrapPanel>
                 <TextBlock Style="{StaticResource AnswerSignStyle}">B</TextBlock>
-                <Button Name="B"
+                <Button 
+                    IsEnabled="{Binding MyAnswer,
+                    Converter=
+                        {StaticResource AnswerCharToBool},ConverterParameter='B'}"
+                    
+
                         Command="{Binding SendAnswerToSerwerCommand}"
                         CommandParameter="MyAnswerIs B" 
                         Style="{StaticResource AnswerStyle}"
@@ -63,23 +80,51 @@
         <Grid Grid.Row="3" Grid.Column="0" Margin="0,20,0,0">
             <WrapPanel Grid.ColumnSpan="2">
                 <TextBlock   Style="{StaticResource AnswerSignStyle}">C</TextBlock>
-                <Button Name="C"
-                        Command="{Binding SendAnswerToSerwerCommand}"
-                        CommandParameter="MyAnswerIs C"
-                        Style="{StaticResource AnswerStyle}"
-                        Content="{Binding AnswerC}">
+                <Button 
+                    
+                    IsEnabled="{Binding MyAnswer,
+                    Converter=
+                        {StaticResource AnswerCharToBool},ConverterParameter='C'}"
+
+                   
+                   
+                    CommandParameter="MyAnswerIs C"
+                    Style="{StaticResource AnswerStyle}"
+                    Content="{Binding AnswerC}">
                 </Button>
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1" >
             <WrapPanel Margin="0,20,0,0">
                 <TextBlock Style="{StaticResource AnswerSignStyle}">D</TextBlock>
-                <Button Name="D"  
+                <Button 
+                    IsEnabled="{Binding MyAnswer,
+                    Converter=
+                        {StaticResource AnswerCharToBool}
+                    ,ConverterParameter='D'}"
+                    
                         Command="{Binding SendAnswerToSerwerCommand}"
                         CommandParameter="MyAnswerIs D" Style="{StaticResource AnswerStyle}"
                         Content="{Binding AnswerD}">
                 </Button>
             </WrapPanel>
         </Grid>
+        <Grid Grid.Row="4" Grid.Column="0" ColumnSpan="2" >
+
+            <TextBlock Visibility="{Binding AnswerInfo,Converter={StaticResource StringToVisibilityConverter}}"
+                        Text="{Binding AnswerInfo}"
+                        Style="{StaticResource QuestionStyle}"
+                        HorizontalAlignment="Center"
+                       
+                        ></TextBlock>
+
+        </Grid>
     </Grid>
 </Window>
+
+
+
+
+
+
+

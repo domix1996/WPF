@@ -61,38 +61,11 @@ namespace Client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BadAnswer.
-        /// </summary>
-        internal static string BadAnswerSerwerAnswer {
-            get {
-                return ResourceManager.GetString("BadAnswerSerwerAnswer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to GoodAnswer.
-        /// </summary>
-        internal static string GoodAnswerSerwerAnswer {
-            get {
-                return ResourceManager.GetString("GoodAnswerSerwerAnswer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).
         /// </summary>
         internal static string IpValidationRegexString {
             get {
                 return ResourceManager.GetString("IpValidationRegexString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ThisIsNewQuestion.
-        /// </summary>
-        internal static string NewQuestionSerwerAnswer {
-            get {
-                return ResourceManager.GetString("NewQuestionSerwerAnswer", resourceCulture);
             }
         }
     }

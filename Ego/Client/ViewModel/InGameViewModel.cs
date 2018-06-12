@@ -9,12 +9,19 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Client.Annotations;
 using Client.Model;
-using CezarCode;
+
 using Client.Properties;
 using Client.ViewModel.Commands;
 
 namespace Client.ViewModel
 {
+    enum GameState
+    {
+        WaitingForGame,
+        WaitingForOthers,
+        WaitingFoAnswer
+
+    }
     public class InGameViewModel : INotifyPropertyChanged
     {
         private readonly InGameModel _inGameModel;
@@ -118,6 +125,11 @@ namespace Client.ViewModel
             get => _questionModel.MyAnswer;
             set => _questionModel.MyAnswer = value;
         }
+        public string AnswerInfo
+        {
+            get => _inGameModel.AnswerInfo;
+            set => _inGameModel.AnswerInfo = value;
+        }
         #endregion
 
 
@@ -128,7 +140,7 @@ namespace Client.ViewModel
         {
             threadReceive = new Thread(o => ReceiveData((NetworkStream)o));
             threadReceive.Start(_inGameModel.MyClient.GetStream());
-            SendAnswerToSerwerCommand= new SendDataToSerwer(this);
+            SendAnswerToSerwerCommand = new SendDataToSerwer(this);
             SendAnswerToSerwerCommand.Execute($"MyNameIs {MyName}");
             //threadSend = new Thread(o => SendDataToSerwer((NetworkStream)o));
             //  threadSend.Start(_inGameModel.MyClient.GetStream());
@@ -153,7 +165,7 @@ namespace Client.ViewModel
         public void ReceiveData(NetworkStream stream)
         {
             byte[] receivedBytes = new byte[1024];
-            int byteCount =0;
+            int byteCount = 0;
 
             while ((byteCount = stream.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
             {
@@ -163,31 +175,36 @@ namespace Client.ViewModel
 
         public void Process(byte[] receivedBytes)
         {
-            string data = System.Text.Encoding.UTF8.GetString(CezarCode.CezarCode.TransformFromCezar(receivedBytes, 10));
-            string command = data.Split()[0];
-            string commandValue = data.Substring(data.IndexOf(' ') >= 0 ? data.IndexOf(' ') : 0);
-            switch (command)
+            string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
+            string[] content = data.Split(new string[] { "+=+" }, StringSplitOptions.None);
+            switch (content[0])
             {
-
                 case "ThisIsNewQuestion":
                     {
-                        QuestionText = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[1].Split()[1];
-                        AnswerA = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[2].Split()[3];
-                        AnswerB = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[3].Split()[3];
-                        AnswerC = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[4].Split()[3];
-                        AnswerD = commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[5].Split()[3];
-                        QuestionNumber = Int32.Parse(commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[6].Split()[3]);
-                        QuestionNumberTotal = Int32.Parse(commandValue.Split(new string[] { "+=+" }, StringSplitOptions.None)[7].Split()[3]);
+                        QuestionText = content[2].Split(':')[1];
+                        AnswerA = content[3].Split(':')[1];
+                        AnswerB = content[4].Split(':')[1];
+                        AnswerC = content[5].Split(':')[1];
+                        AnswerD = content[6].Split(':')[1];
+                        QuestionNumber = Int32.Parse(content[7].Split(':')[1]);
+                        QuestionNumberTotal = Int32.Parse(content[8].Split(':')[1]);
+                        AnswerInfo = String.Empty;
+                        MyAnswer = String.Empty;
                     }
                     break;
                 case "GoodAnswer":
                     {
-                        MessageBox.Show("Good answer!!");
+                        AnswerInfo = "Good answer!!";
                     }
                     break;
                 case "BadAnswer":
                     {
-                        MessageBox.Show("Bad answer!!");
+                        AnswerInfo = "Bad answer!!";
+                    }
+                    break;
+                case "YourPoints":
+                    {
+                        AnswerInfo += $"\nYour points:{content[1]}";
                     }
                     break;
 

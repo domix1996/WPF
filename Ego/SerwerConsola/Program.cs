@@ -9,14 +9,12 @@ using System.Runtime.Remoting.Messaging;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
-using CezarCode;
 using SerwerConsola;
+using SerwerConsola.Properties;
 
 
 namespace SerwerKonsola
 {
-
-
 
     class Program
     {
@@ -24,10 +22,13 @@ namespace SerwerKonsola
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
         static Dictionary<int, Player> PlayersList = new Dictionary<int, Player>();
         static int answerCount = 0;
+        private static int NumberOfPlayers { get; set; } = 2;
 
-
+        public static QuestionManager _questionManager { get; set; }
         static void Main(string[] args)
         {
+            _questionManager = new QuestionManager();
+            _questionManager.GetQuestionsFromFile();
             int count = 0;
             TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
@@ -94,52 +95,41 @@ namespace SerwerKonsola
 
         public static void DataBroadcast(string data)
         {
-            byte[] buffer = CezarCode.CezarCode.TransformToCezar(Encoding.ASCII.GetBytes(data + Environment.NewLine), 10);
+            byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
 
-            lock (_lock)
-            {
+            //lock (_lock)
+            //{
                 for (int i = 0; i < PlayersList.Count; i++)
                 {
                     SentDataToPlayer(buffer, PlayersList[i]);
                 }
-            }
+           // }
         }
 
         public static void SentDataToPlayer(string data, Player player)
         {
-            lock (_lock)
-            {
-                byte[] buffer = CezarCode.CezarCode.TransformToCezar(Encoding.ASCII.GetBytes(data + Environment.NewLine), 10);
+            //lock (_lock)
+           // {
+                byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
 
                 NetworkStream stream = player.PlayerTcpClient.GetStream();
                 stream.Write(buffer, 0, buffer.Length);
-            }
+            //}
         }
 
         public static void SentDataToPlayer(byte[] data, Player player)
         {
-            lock (_lock)
-            {
+          //  lock (_lock)
+           // {
                 NetworkStream stream = player.PlayerTcpClient.GetStream();
-                stream.Write(CezarCode.CezarCode.TransformToCezar(data, 10), 0, data.Length);
-            }
+                stream.Write(data, 0, data.Length);
+          //  }
         }
 
-        //public static void Process(byte[] receivedBytes   , TcpClient client)
-        //{
-        //    string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
-        //    if (data == "A")
-        //    {
-        //        DataBroadcast($"Odpowiedz gracza to A", client);
-        //    }
-        //    if (data == "B")
-        //    {
-        //        DataBroadcast($"Odpowiedz gracza to B", client);
-        //    }
-        //}
+      
         public static void Process(byte[] receivedBytes, Player player)
         {
-            string data = System.Text.Encoding.UTF8.GetString(CezarCode.CezarCode.TransformFromCezar(receivedBytes, 10)).Replace("\0", "");
+            string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
             string command = data.Split()[0];
             string commandValue = data.Substring(data.IndexOf(' ') >= 0 ? data.IndexOf(' ') : 0);
 
@@ -158,17 +148,12 @@ namespace SerwerKonsola
                         player.LastAnswer = commandValue[1];
                         Console.WriteLine($"\n {player.PlayerName}: Moja odpowiedz to {player.LastAnswer}");
                         answerCount++;
-                        if (answerCount == 2)
+                        if (answerCount == NumberOfPlayers)
                         {
                             answerCount = 0;
-                            for (int i = 0; i < 2; i++)
-                            {
-                                player = PlayersList[i];
-                                if (player.LastAnswer=='A') SentDataToPlayer(Resources.GoodAnswerString, player);
-                                else SentDataToPlayer(Resources.BadAnswerString, player);
-                            }
+                            AnswerProceed();
                         }
-                       
+
                     }
                     break;
                 case "NextQuestion": //gracz udziela odpowiedzi
@@ -181,28 +166,57 @@ namespace SerwerKonsola
 
         static public void SendNextQuestionToPlayers()
         {
-            string question = "Ile to jest 2+2?";
-            string correctAnswer = "A";
-            string answerA = "2";
-            string answerB = "3";
-            string answerC = "4";
-            string answerD = "5";
-            string questionNumber = "10";
-            string questionTotal = "8";
+            Question question = _questionManager.GetNextQuestion();
+            if (question != null)
+            {
+                SendQuestionToPlayers(question);
+            }
+            else
+            {
+                Console.WriteLine("KoniecPytań");
+            }
+
+        }
+
+        static public void SendQuestionToPlayers(Question question)
+        {
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine($"Wysyłam pytanie  {question.QuestionNumber}/{question.QuestionNumberTotal}");
             StringBuilder sb = new StringBuilder();
-            sb.Append("ThisIsNewQuestion ");
-            sb.Append($"CorrectAnswer {correctAnswer}+=+");
-            sb.Append($"Question {question}+=+");
-            sb.Append($"AnswerA wynik to {answerA}+=+");
-            sb.Append($"AnswerB wynik to {answerB}+=+");
-            sb.Append($"AnswerC wynik to {answerC}+=+");
-            sb.Append($"AnswerD wynik to {answerD}+=+");
-            sb.Append($"Numer pytania to {questionNumber}+=+");
-            sb.Append($"Ilosc pytan to {questionTotal}+=+");
+            sb.Append("ThisIsNewQuestion+=+");
+            sb.Append($"CA:{question.CorrectAnswer}+=+");
+            sb.Append($"Q:{question.QuestionText}+=+");
+            sb.Append($"A:{question.AnswerA}+=+");
+            sb.Append($"B:{question.AnswerB}+=+");
+            sb.Append($"C:{question.AnswerC}+=+");
+            sb.Append($"D:{question.AnswerD}+=+");
+            sb.Append($"N:{question.QuestionNumber}+=+");
+            sb.Append($"T:{question.QuestionNumberTotal}");
             DataBroadcast(sb.ToString());
         }
 
+        static public void AnswerProceed()
+        {
 
+            for (int i = 0; i < NumberOfPlayers; i++)
+            {
+                Player player = PlayersList[i];
+                if (player.LastAnswer == QuestionManager.CurrentQuestion.CorrectAnswer)
+                {
+                    SentDataToPlayer(Resources.GoodAnswerString, player);
+                    player.Points++;
+                }
+                else
+                {
+                    SentDataToPlayer(Resources.BadAnswerString, player);
+                }
+                SentDataToPlayer($"Your points:+=+{player.Points.ToString()}", player);
+
+            }
+            //Thread.Sleep(5000);
+            //SendNextQuestionToPlayers();
+
+        }
     }
 
 

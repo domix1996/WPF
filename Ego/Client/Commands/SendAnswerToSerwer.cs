@@ -2,10 +2,9 @@
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Input;
-using CezarCode;
 namespace Client.ViewModel.Commands
 {
-    public class SendDataToSerwer:ICommand
+    public class SendDataToSerwer : ICommand
     {
         private InGameViewModel _vm;
 
@@ -22,10 +21,16 @@ namespace Client.ViewModel.Commands
 
         public void Execute(object parameter)
         {
+
+            if (parameter.ToString().Split()[0] == "MyAnswerIs")
+            {
+                _vm.MyAnswer = parameter.ToString().Split()[1];
+            }
+
             string data = parameter.ToString();
             if (!string.IsNullOrEmpty(data))
             {
-                byte[] buffer = CezarCode.CezarCode.TransformToCezar(Encoding.ASCII.GetBytes(data), 10);
+                byte[] buffer = Encoding.ASCII.GetBytes(data);
                 _vm.MyClient.GetStream().Write(buffer, 0, buffer.Length);
             }
         }

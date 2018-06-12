@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Net.Sockets;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace SerwerKonsola
 {
@@ -10,11 +11,13 @@ namespace SerwerKonsola
         public TcpClient PlayerTcpClient { get; set; }
         public char LastAnswer { get;
             set; }
+        public int Points { get; set; }
         public Player(int playerID, TcpClient playerTcpClient, string playerName = "Annon")
         {
             PlayerName = playerName;
             PlayerId = playerID;
             PlayerTcpClient = playerTcpClient;
+            Points = 0;
         }
         //public Player(int playerID, string playerIPAdress, int playerPort, string playerName = "Annon")
         //{

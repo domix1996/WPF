@@ -24,12 +24,24 @@
     </Style>
     <Style TargetType="Button" x:Key="AnswerStyle">
         <Setter Property="FontSize" Value="24"></Setter>
-        <Setter Property="Foreground" Value="White"></Setter>
-        <Setter Property="Background" Value="LightSlateGray"></Setter>
+        <!--<Setter Property="Foreground" Value="White"></Setter>-->
+        <!--<Setter Property="Background" Value="LightSlateGray"></Setter>-->
         <Setter Property="Height" Value="80"></Setter>
         <Setter Property="Width" Value="250"></Setter>
         <Setter  Property="BorderThickness" Value="0"></Setter>
         <Setter  Property="Padding" Value="0,5,10,10"></Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Chocolate" />
+                    <Setter Property="Background" Value="Red" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="Red" />
+                    <Setter Property="Background" Value="CornflowerBlue" />
+                </Trigger>
+        </Style.Triggers>
+
     </Style>
     <Style TargetType="TextBlock" x:Key="AnswerSignStyle">
         <Setter Property="HorizontalAlignment" Value="Center"></Setter>
