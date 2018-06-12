@@ -18,7 +18,6 @@ namespace SerwerKonsola
 
     class Program
     {
-        //static readonly object _lock = new object();
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
         static Dictionary<int, Player> PlayersList = new Dictionary<int, Player>();
         static int answerCount = 0;
@@ -41,11 +40,10 @@ namespace SerwerKonsola
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
 
-                //lock (_lock) list_clients.Add(count, client);
-                //lock (_lock) PlayersList.Add(count, new Player(count, client));                
+                             
                 list_clients.Add(count, client);
                 PlayersList.Add(count, new Player(count, client));
-                //Console.WriteLine("Someone connected!!");
+                Console.WriteLine("Someone connected!!");
                 Thread t = new Thread(HandleClient);
                 t.Start(count);
                 Console.WriteLine(count);
@@ -76,26 +74,9 @@ namespace SerwerKonsola
             }
 
             list_clients.Remove(ID);
-            // lock (_lock) list_clients.Remove(ID);
             player.PlayerTcpClient.Client.Shutdown(SocketShutdown.Both);
             player.PlayerTcpClient.Close();
         }
-
-        //public static void DataBroadcast(string data, Player playerExcluded)
-        //{
-        //    byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
-
-        //    lock (_lock)
-        //    {
-        //        for (int i = 0; i < PlayersList.Count; i++)
-        //        {
-        //            if (PlayersList[i] != playerExcluded)
-        //                SentDataToPlayer(data, PlayersList[i]);
-        //        }
-        //    }
-        //}
-
-
 
 
         public static void Process(byte[] receivedBytes, Player player)
