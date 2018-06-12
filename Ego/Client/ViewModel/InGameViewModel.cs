@@ -156,7 +156,7 @@ namespace Client.ViewModel
 
         {
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
-            string[] content = data.Split(new string[] { "+=+", "\r" }, StringSplitOptions.None);
+            string[] content = data.Split(new string[] { "+=+", "\r","\n" }, StringSplitOptions.None);
             switch (content[0])
             {
                 case "ThisIsNewQuestion":

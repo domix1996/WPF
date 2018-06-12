@@ -155,7 +155,7 @@ namespace SerwerKonsola
         }
         public static void DataBroadcast(string data)
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(data);
+            byte[] buffer = Encoding.UTF8.GetBytes(data+Environment.NewLine);
 
             for (int i = 0; i < PlayersList.Count; i++)
             {
@@ -164,7 +164,7 @@ namespace SerwerKonsola
         }
         public static void SentDataToPlayer(string data, Player player)
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(data);
+            byte[] buffer = Encoding.UTF8.GetBytes(data+Environment.NewLine);
             NetworkStream stream = player.PlayerTcpClient.GetStream();
             stream.Write(buffer, 0, buffer.Length);
         }
@@ -187,7 +187,7 @@ namespace SerwerKonsola
             sb.Append($"C:{question.AnswerC}+=+");
             sb.Append($"D:{question.AnswerD}+=+");
             sb.Append($"N:{question.QuestionNumber}+=+");
-            sb.Append($"T:{question.QuestionNumberTotal}");
+            sb.Append($"T:{question.QuestionNumberTotal}\n\n");
             DataBroadcast(sb.ToString());
         }
 
@@ -206,7 +206,7 @@ namespace SerwerKonsola
                 {
                     SentDataToPlayer(Resources.BadAnswerString, player);
                 }
-                SentDataToPlayer($"YourPoints+=+{player.Points.ToString()}", player);
+                SentDataToPlayer($"YourPoints+=+{player.Points}+=+", player);
 
             }
             
