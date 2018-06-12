@@ -15,13 +15,7 @@ using Client.ViewModel.Commands;
 
 namespace Client.ViewModel
 {
-    enum GameState
-    {
-        WaitingForGame,
-        WaitingForOthers,
-        WaitingFoAnswer
-
-    }
+    
     public class InGameViewModel : INotifyPropertyChanged
     {
         private readonly InGameModel _inGameModel;
@@ -125,6 +119,11 @@ namespace Client.ViewModel
             get => _questionModel.MyAnswer;
             set => _questionModel.MyAnswer = value;
         }
+        public int MyPoints
+        {
+            get => _inGameModel.MyPoints;
+            set => _inGameModel.MyPoints = value;
+        }
         public string AnswerInfo
         {
             get => _inGameModel.AnswerInfo;
@@ -142,26 +141,8 @@ namespace Client.ViewModel
             threadReceive.Start(_inGameModel.MyClient.GetStream());
             SendAnswerToSerwerCommand = new SendDataToSerwer(this);
             SendAnswerToSerwerCommand.Execute($"MyNameIs {MyName}");
-            //threadSend = new Thread(o => SendDataToSerwer((NetworkStream)o));
-            //  threadSend.Start(_inGameModel.MyClient.GetStream());
+           
         }
-
-        //public void SendDataToSerwer(NetworkStream stream)
-        //{
-        //     while (!string.IsNullOrEmpty(MyAnswer))
-        //    {
-        //        byte[] buffer = TransformToCezar(Encoding.ASCII.GetBytes(MyAnswer),10);
-        //        stream.Write(buffer, 0, buffer.Length);
-        //    }
-        //}
-        //public void SendDataToSerwer(NetworkStream stream,string data)
-        //{
-        //   if (!string.IsNullOrEmpty(data))
-        //    {
-        //        byte[] buffer = TransformToCezar(Encoding.ASCII.GetBytes(data), 10);
-        //        stream.Write(buffer, 0, buffer.Length);
-        //    }
-        //}
         public void ReceiveData(NetworkStream stream)
         {
             byte[] receivedBytes = new byte[1024];
@@ -174,9 +155,10 @@ namespace Client.ViewModel
         }
 
         public void Process(byte[] receivedBytes)
+            
         {
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
-            string[] content = data.Split(new string[] { "+=+" }, StringSplitOptions.None);
+            string[] content = data.Split(new string[] { "+=+","\r"}, StringSplitOptions.None);
             switch (content[0])
             {
                 case "ThisIsNewQuestion":
@@ -204,7 +186,7 @@ namespace Client.ViewModel
                     break;
                 case "YourPoints":
                     {
-                        AnswerInfo += $"\nYour points:{content[1]}";
+                        MyPoints = Int32.Parse(content[1]);
                     }
                     break;
 

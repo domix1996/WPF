@@ -91,10 +91,24 @@ namespace Client.ViewModel
                 {
                     if (string.IsNullOrEmpty(HostPort))
                         result += "\nHostPort nie może być puste!";
-                    else if (Int32.Parse(HostPort) < 0 || Int32.Parse(HostPort) > 65535)
+                    else
                     {
-                        result += "\n Host Port wykracza poza zakres 0-65535";
+                        try
+                        {
+                            if (Int32.Parse(HostPort) < 0 || Int32.Parse(HostPort) > 65535)
+                            {
+                                result += "\n Host Port wykracza poza zakres 0-65535";
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            result += "\n Host musi być liczbą całkowitą z zakresu 0-65535";
+
+                            
+                        }
                     }
+
+                   
                 }
                 return result;
             }

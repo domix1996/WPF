@@ -8,6 +8,7 @@ namespace Client.Model
         public NetworkStream MyNetworkStream { get; set; }
         public string MyName { get; set; }
         public int MyNumber { get; set; }
+        public int MyPoints { get; set; }
         public string AnswerInfo { get; set; }
     }
 }

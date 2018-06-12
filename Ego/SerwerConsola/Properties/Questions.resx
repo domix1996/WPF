@@ -123,11 +123,17 @@
   <data name="A2" xml:space="preserve">
     <value>To problem hardwerowy</value>
   </data>
+  <data name="A3" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="B1" xml:space="preserve">
     <value>Nie wiem</value>
   </data>
   <data name="B2" xml:space="preserve">
     <value>Programisci nic nie moga zmienic</value>
+  </data>
+  <data name="B3" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="C1" xml:space="preserve">
     <value>Kot Ali ma 3 lap</value>
@@ -135,14 +141,20 @@
   <data name="C2" xml:space="preserve">
     <value>I tak Cie na nich nie stac</value>
   </data>
+  <data name="C3" xml:space="preserve">
+    <value>Pierwiastek z 15</value>
+  </data>
   <data name="D1" xml:space="preserve">
     <value>Kot ten nie ma lap</value>
   </data>
   <data name="D2" xml:space="preserve">
     <value>1 wystarczy</value>
   </data>
+  <data name="D3" xml:space="preserve">
+    <value>-2</value>
+  </data>
   <data name="IlePytań" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Odpowiedz1" xml:space="preserve">
     <value>D</value>
@@ -150,10 +162,16 @@
   <data name="Odpowiedz2" xml:space="preserve">
     <value>A</value>
   </data>
+  <data name="Odpowiedz3" xml:space="preserve">
+    <value>A</value>
+  </data>
   <data name="Pytanie1" xml:space="preserve">
     <value>Ile lap ma kot Ali?</value>
   </data>
   <data name="Pytanie2" xml:space="preserve">
     <value>Ilu potrzeba programistow aby zmienic  zarowke?</value>
+  </data>
+  <data name="Pytanie3" xml:space="preserve">
+    <value>Ile to jest 2+2 ?</value>
   </data>
 </root>

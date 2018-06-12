@@ -33,22 +33,21 @@ namespace SerwerKonsola
             TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
 
-            while (true) //czekamy aĹĽ dojdzie nowy klient i wtedy go dodajemy 
+            while (true) 
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
 
                 lock (_lock) list_clients.Add(count, client);
                 lock (_lock) PlayersList.Add(count, new Player(count, client));
-                Console.WriteLine("Someone connected!!");
-                //Console.WriteLine("List of connected users");
-                //foreach (var lc in list_clients)
-                //{
-                //    Console.WriteLine(lc.Value.Client.RemoteEndPoint);
-                //}
+               // Console.WriteLine("Someone connected!!");
                 Thread t = new Thread(HandleClient);
                 t.Start(count);
                 Console.WriteLine(count);
                 count++;
+                if (count == NumberOfPlayers)
+                {
+                    SendNextQuestionToPlayers();
+                }
             }
         }
 
@@ -58,7 +57,7 @@ namespace SerwerKonsola
 
             Player player = PlayersList[ID];
 
-            while (true) //czytamy co nam wysyĹ‚a klient i przetwarzamy
+            while (true) 
             {
                 NetworkStream stream = player.PlayerTcpClient.GetStream();
                 byte[] received = new byte[1024];
@@ -69,9 +68,9 @@ namespace SerwerKonsola
                 Process(received, player);
             }
 
-            //lock (_lock) list_clients.Remove(ID);
-            //client.Client.Shutdown(SocketShutdown.Both);
-            //client.Close();
+            lock (_lock) list_clients.Remove(ID);
+            player.PlayerTcpClient.Client.Shutdown(SocketShutdown.Both);
+            player.PlayerTcpClient.Close();
         }
 
         /// <summary>
@@ -137,8 +136,9 @@ namespace SerwerKonsola
             {
                 case "MyNameIs": //gracz zmienia swoją nazwę
                     {
-                        // DataBroadcast(
-                        Console.WriteLine($"\n{player.PlayerName}  zmienił nazwę  na {commandValue}");
+                         Console.WriteLine($"{commandValue} dołączył do gry");
+
+                        //Console.WriteLine($"\n{player.PlayerName}  zmienił nazwę  na {commandValue}");
                         player.PlayerName = commandValue;
                         break;
                     }
@@ -148,6 +148,7 @@ namespace SerwerKonsola
                         player.LastAnswer = commandValue[1];
                         Console.WriteLine($"\n {player.PlayerName}: Moja odpowiedz to {player.LastAnswer}");
                         answerCount++;
+                       // CheckConnectionsWithPlayers();
                         if (answerCount == NumberOfPlayers)
                         {
                             answerCount = 0;
@@ -166,7 +167,8 @@ namespace SerwerKonsola
 
         static public void SendNextQuestionToPlayers()
         {
-            Question question = _questionManager.GetNextQuestion();
+            _questionManager.NextQuestion();
+            Question question = _questionManager.GetCurrentQuestion();
             if (question != null)
             {
                 SendQuestionToPlayers(question);
@@ -201,7 +203,7 @@ namespace SerwerKonsola
             for (int i = 0; i < NumberOfPlayers; i++)
             {
                 Player player = PlayersList[i];
-                if (player.LastAnswer == QuestionManager.CurrentQuestion.CorrectAnswer)
+                if (player.LastAnswer == _questionManager.GetCurrentQuestion().CorrectAnswer)
                 {
                     SentDataToPlayer(Resources.GoodAnswerString, player);
                     player.Points++;
@@ -210,13 +212,33 @@ namespace SerwerKonsola
                 {
                     SentDataToPlayer(Resources.BadAnswerString, player);
                 }
-                SentDataToPlayer($"Your points:+=+{player.Points.ToString()}", player);
+                SentDataToPlayer($"YourPoints+=+{player.Points.ToString()}", player);
 
             }
-            //Thread.Sleep(5000);
-            //SendNextQuestionToPlayers();
+            Thread.Sleep(5000);
+            SendNextQuestionToPlayers();
 
         }
+
+        //static public void CheckConnectionsWithPlayers()
+        //{
+        //    for (int i = 0; i < PlayersList.Count; i++)
+        //    {
+        //        var tcpClient = PlayersList[i].PlayerTcpClient.Client;
+                
+        //        bool ok =
+
+        //            tcpClient.Poll(01, SelectMode.SelectWrite) &&
+
+        //            tcpClient.Poll(01, SelectMode.SelectRead) && 
+        //            !tcpClient.Poll(01, SelectMode.SelectError) ? true : false;
+        //        if (!ok)
+        //        {
+        //            PlayersList.Remove(i);
+        //            NumberOfPlayers--;
+        //        }
+        //    }
+        //}
     }
 
 

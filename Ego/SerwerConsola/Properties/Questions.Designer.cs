@@ -79,6 +79,15 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 4.
+        /// </summary>
+        internal static string A3 {
+            get {
+                return ResourceManager.GetString("A3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nie wiem.
         /// </summary>
         internal static string B1 {
@@ -93,6 +102,15 @@ namespace SerwerConsola.Properties {
         internal static string B2 {
             get {
                 return ResourceManager.GetString("B2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5.
+        /// </summary>
+        internal static string B3 {
+            get {
+                return ResourceManager.GetString("B3", resourceCulture);
             }
         }
         
@@ -115,6 +133,15 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pierwiastek z 15.
+        /// </summary>
+        internal static string C3 {
+            get {
+                return ResourceManager.GetString("C3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kot ten nie ma lap.
         /// </summary>
         internal static string D1 {
@@ -133,7 +160,16 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2.
+        ///   Looks up a localized string similar to -2.
+        /// </summary>
+        internal static string D3 {
+            get {
+                return ResourceManager.GetString("D3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3.
         /// </summary>
         internal static string IlePytań {
             get {
@@ -160,6 +196,15 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A.
+        /// </summary>
+        internal static string Odpowiedz3 {
+            get {
+                return ResourceManager.GetString("Odpowiedz3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ile lap ma kot Ali?.
         /// </summary>
         internal static string Pytanie1 {
@@ -174,6 +219,15 @@ namespace SerwerConsola.Properties {
         internal static string Pytanie2 {
             get {
                 return ResourceManager.GetString("Pytanie2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ile to jest 2+2 ?.
+        /// </summary>
+        internal static string Pytanie3 {
+            get {
+                return ResourceManager.GetString("Pytanie3", resourceCulture);
             }
         }
     }
