@@ -142,7 +142,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kot ten nie ma lap.
+        ///   Looks up a localized string similar to Kot ten nie ma łap.
         /// </summary>
         internal static string D1 {
             get {
@@ -205,7 +205,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ile lap ma kot Ali?.
+        ///   Looks up a localized string similar to Ile łap ma kot Ali?.
         /// </summary>
         internal static string Pytanie1 {
             get {

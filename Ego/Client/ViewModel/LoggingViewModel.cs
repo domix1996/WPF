@@ -14,8 +14,15 @@ namespace Client.ViewModel
 {
     public class LoggingViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        #region PrivateProperties
         private readonly LoggingModel _loggingModel;
+        #endregion
+
+        #region PublicProperties
         public InGameView InGameView;
+        #endregion
+
+        #region Contructors
 
         public LoggingViewModel()
         {
@@ -26,11 +33,10 @@ namespace Client.ViewModel
                 HostIp = "127.0.0.1",
                 HostPort = "5000"
             };
-          
-
-
             _connectToServerCommand = new ConnectToServerCommand(this);
         }
+
+        #endregion
 
         #region Model
         public string HostIp
@@ -53,17 +59,16 @@ namespace Client.ViewModel
             get => _loggingModel.MyIp;
             set => _loggingModel.MyIp = value;
         }
-
-        
         #endregion
 
         #region Commands
+
         private ICommand _connectToServerCommand;
         public ICommand ConnectToServer => _connectToServerCommand ?? (_connectToServerCommand = new ConnectToServerCommand(this));
 
         #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region DataValidation
 
         public string this[string fieldName]
         {
@@ -84,7 +89,7 @@ namespace Client.ViewModel
                         Regex regex = new Regex(Resources.IpValidationRegexString);
                         Match match = regex.Match(HostIp);
                         if (!match.Success)
-                            result += "\nHost IP ma zły format!";
+                            result += "\nHost IP ma zły format! Oczekiwany format to XXX.XXX.XXX.XXX";
                     }
                 }
                 if (fieldName == "HostPort" || fieldName == "")
@@ -104,11 +109,9 @@ namespace Client.ViewModel
                         {
                             result += "\n Host musi być liczbą całkowitą z zakresu 0-65535";
 
-                            
+
                         }
                     }
-
-                   
                 }
                 return result;
             }
@@ -126,5 +129,11 @@ namespace Client.ViewModel
                 return result;
             }
         }
+
+        #endregion
+
+        #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
     }
 }

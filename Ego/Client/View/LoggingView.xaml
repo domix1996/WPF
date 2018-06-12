@@ -5,66 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         xmlns:vm="clr-namespace:Client.ViewModel"
+        xmlns:converts="clr-namespace:Client.Converts"
         mc:Ignorable="d"
-        Title="LoggingView" Height="600" Width="800">
+        Title="LoggingView" Height="600" Width="400">
     <Window.Resources>
         <vm:LoggingViewModel x:Key="LoggingVm"></vm:LoggingViewModel>
-        <Style TargetType="TextBlock" x:Key="InfoStyle">
-            <Setter Property="FontSize" Value="24"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="Background" Value="LightSlateGray"></Setter>
-
-            <Setter Property="Margin" Value="30,0,20,10"></Setter>
-            <Setter Property="Height" Value="40"></Setter>
-            <Setter Property="Width" Value="200"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-
-        </Style>
-        <Style TargetType="TextBox" x:Key="InputsStyle">
-            <Setter Property="FontSize" Value="24"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="Background" Value="LightSlateGray"></Setter>
-
-            <Setter Property="Margin" Value="30,0,20,10"></Setter>
-            <Setter Property="Height" Value="40"></Setter>
-            <Setter Property="Width" Value="200"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="BorderThickness" Value="0"></Setter>
-
-        </Style>
-        <Style TargetType="TextBlock" x:Key="LabelsStyle">
-            <Setter Property="FontSize" Value="24"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="Width" Value="200"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="Margin" Value="30,30,20,10"></Setter>
-        </Style>
-        <Style TargetType="Button" x:Key="ButtonStyle">
-            <Setter Property="FontSize" Value="24"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="Width" Value="200"></Setter>
-            <Setter Property="Height" Value="50"></Setter>
-
-            <Setter Property="Background" Value="LightSlateGray"></Setter>
-
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="Margin" Value="30,30,20,10"></Setter>
-        </Style>
+        <converts:ErrorStingToBool x:Key="ErrorStingToBool"></converts:ErrorStingToBool>
     </Window.Resources>
-    <Grid DataContext="{StaticResource LoggingVm}" Background="DarkCyan">
+    <Grid 
+        DataContext="{StaticResource LoggingVm}" 
+          Background="DarkCyan">
         <StackPanel>
-            <TextBlock Style="{StaticResource LabelsStyle}"> Twoja nazwa</TextBlock>
-            <TextBox Style="{StaticResource InputsStyle }" Text="{Binding MyName,Mode=TwoWay, UpdateSourceTrigger=LostFocus,
-            ValidatesOnDataErrors=True}"/>
-            <!--<TextBlock Style="{StaticResource LabelsStyle}"> Twoje IP</TextBlock>
-            <TextBlock Style="{StaticResource InfoStyle }" Text="{Binding MyIPAddress,Mode=TwoWay,Converter={StaticResource IpToStringConverter}}"/>-->
-            <TextBlock Style="{StaticResource LabelsStyle}"> Adres Hosta</TextBlock>
-            <TextBox Style="{StaticResource InputsStyle }" Text="{Binding HostIp,Mode=TwoWay, UpdateSourceTrigger=LostFocus,
-            ValidatesOnDataErrors=True}"/>
-            <TextBlock Style="{StaticResource LabelsStyle}"> Port Hosta</TextBlock>
-            <TextBox Style="{StaticResource InputsStyle }" Text="{Binding HostPort,Mode=TwoWay, UpdateSourceTrigger=LostFocus,
-            ValidatesOnDataErrors=True}"/>
-            <Button Command="{Binding ConnectToServer}" Style="{StaticResource ButtonStyle}">Połącz z serwerem</Button>
+            <TextBlock 
+                Style="{StaticResource LabelsStyle}">
+                 Twoja nazwa
+            </TextBlock>
+            <TextBox 
+                Style="{StaticResource InputsStyle }" 
+                Text="{Binding MyName,Mode=TwoWay,
+                       UpdateSourceTrigger=LostFocus,
+                       ValidatesOnDataErrors=True,
+                       NotifyOnValidationError=True, 
+                       ValidatesOnExceptions=True}" >
+            </TextBox>
+            <TextBlock
+                Style="{StaticResource LabelsStyle}" Text="Adres Hosta">
+            </TextBlock>
+            <TextBox 
+                Style="{StaticResource InputsStyle}"
+                Text="{Binding HostIp,Mode=TwoWay,
+                       UpdateSourceTrigger=PropertyChanged,
+                       ValidatesOnDataErrors=True}">
+            </TextBox>
+            <TextBlock 
+                Style="{StaticResource LabelsStyle}"
+                Text="Port Hosta">
+            </TextBlock>
+            <TextBox 
+                Style="{StaticResource InputsStyle }" 
+                Text="{Binding HostPort,Mode=TwoWay, 
+                       UpdateSourceTrigger=PropertyChanged,
+                       ValidatesOnDataErrors=True}">
+            </TextBox>
+            <Button 
+                IsEnabled="{Binding Error,
+                    Converter={StaticResource ErrorStingToBool}}"
+                Command="{Binding ConnectToServer}" 
+                Style="{StaticResource ButtonStyle}"
+                Content="Połącz z serwerem">
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

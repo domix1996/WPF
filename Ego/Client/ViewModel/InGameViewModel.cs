@@ -15,17 +15,16 @@ using Client.ViewModel.Commands;
 
 namespace Client.ViewModel
 {
-    
+
     public class InGameViewModel : INotifyPropertyChanged
     {
+        #region PrivateProperties
         private readonly InGameModel _inGameModel;
         private readonly QuestionModel _questionModel;
+        private Thread _threadReceive;
+        #endregion
 
-        private Thread threadReceive;
-        private Thread threadSend;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        #region Constructors
         public InGameViewModel()
         {
             _inGameModel = new InGameModel();
@@ -40,6 +39,7 @@ namespace Client.ViewModel
                 QuestionNumberTotal = 1
             };
         }
+        #endregion
 
         #region Model
 
@@ -131,17 +131,15 @@ namespace Client.ViewModel
         }
         #endregion
 
-
-
         #region Methods
 
         public void StartTransmision()
         {
-            threadReceive = new Thread(o => ReceiveData((NetworkStream)o));
-            threadReceive.Start(_inGameModel.MyClient.GetStream());
+            _threadReceive = new Thread(o => ReceiveData((NetworkStream)o));
+            _threadReceive.Start(_inGameModel.MyClient.GetStream());
             SendAnswerToSerwerCommand = new SendDataToSerwer(this);
             SendAnswerToSerwerCommand.Execute($"MyNameIs {MyName}");
-           
+
         }
         public void ReceiveData(NetworkStream stream)
         {
@@ -155,10 +153,10 @@ namespace Client.ViewModel
         }
 
         public void Process(byte[] receivedBytes)
-            
+
         {
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
-            string[] content = data.Split(new string[] { "+=+","\r"}, StringSplitOptions.None);
+            string[] content = data.Split(new string[] { "+=+", "\r" }, StringSplitOptions.None);
             switch (content[0])
             {
                 case "ThisIsNewQuestion":
@@ -200,6 +198,12 @@ namespace Client.ViewModel
         public ICommand SendAnswerToSerwerCommand { get; set; }//=> _sendAnswerToSerwerCommand ?? (_sendAnswerToSerwerCommand = new SendAnswerToSerwer(this));
 
         #endregion
+
+        #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
     }
 }
 

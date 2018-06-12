@@ -14,6 +14,7 @@ namespace Client.ViewModel.Commands
         {
             _loggingViewModel = loggingViewModel;
         }
+
         public bool CanExecute(object parameter)
         {
             if (String.IsNullOrEmpty(_loggingViewModel.Error)) return true;
@@ -32,9 +33,9 @@ namespace Client.ViewModel.Commands
                 inGameViewModel.MyNetworkStream = client.GetStream();//łączy do serwera
                 inGameViewModel.MyName = _loggingViewModel.MyName;
                 inGameViewModel.StartTransmision();
+
                 App.Current.MainWindow.Hide();
                 _loggingViewModel.InGameView.Show();
-               
 
             }
             catch (Exception ex)

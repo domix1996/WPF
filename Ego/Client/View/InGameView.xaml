@@ -11,13 +11,8 @@
         <vm:InGameViewModel x:Key="InGameVM"></vm:InGameViewModel>
         <converts:StringToVisibilityConverter x:Key="StringToVisibilityConverter"></converts:StringToVisibilityConverter>
         <converts:AnswerCharToBool x:Key="AnswerCharToBool"></converts:AnswerCharToBool>
-        <converts:AnswerCharToBackgroundColor x:Key="AnswerCharToBackgroundColor"></converts:AnswerCharToBackgroundColor>
-
-
-
     </Window.Resources>
     <Grid DataContext="{StaticResource InGameVM}" Background="DarkCyan">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*" ></RowDefinition>
             <RowDefinition Height="2*" ></RowDefinition>
@@ -25,37 +20,47 @@
             <RowDefinition Height="2*" ></RowDefinition>
             <RowDefinition Height="2*" ></RowDefinition>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid Row="0" ColumnSpan="2">
-            <TextBlock ></TextBlock>
+        <Grid 
+            Row="0" 
+            ColumnSpan="2">
             <StackPanel>
-                <Label Style="{StaticResource ProgressLabelStyle}">Progress</Label>
-                <ProgressBar Style="{StaticResource ProgressBarStyle}"
-                             Maximum="{Binding QuestionNumberTotal}"
-                             Value="{Binding QuestionNumber}"
+                <Label 
+                    Style="{StaticResource ProgressLabelStyle}" 
+                    Content="Progress">
+                </Label>
+                <ProgressBar 
+                    Style="{StaticResource ProgressBarStyle}"
+                    Maximum="{Binding QuestionNumberTotal}"
+                    Value="{Binding QuestionNumber}"
                 ></ProgressBar>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0" ColumnSpan="2">
-            <TextBlock Style="{StaticResource QuestionStyle}"
-                       Text="{Binding QuestionText}"
-                       ></TextBlock>
+        <Grid 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            ColumnSpan="2">
+            <TextBlock 
+                Style="{StaticResource QuestionStyle}"
+                Text="{Binding QuestionText}">
+            </TextBlock>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0">
             <WrapPanel>
-                <TextBlock Style="{StaticResource AnswerSignStyle}">A</TextBlock>
+                <TextBlock 
+                    Style="{StaticResource AnswerSignStyle}" Text="A">
+                </TextBlock>
                 <Button 
                    IsEnabled="{Binding MyAnswer,Converter=
-                               {StaticResource AnswerCharToBool},ConverterParameter='A'}"
+                               {StaticResource AnswerCharToBool},
+                               ConverterParameter='A'}"
 
                     Command="{Binding SendAnswerToSerwerCommand}"
                     CommandParameter="MyAnswerIs A"
-
                     Style="{StaticResource AnswerStyle}"
                     Content="{Binding AnswerA}">
                 </Button>
@@ -63,66 +68,75 @@
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1" >
             <WrapPanel>
-                <TextBlock Style="{StaticResource AnswerSignStyle}">B</TextBlock>
+                <TextBlock 
+                    Style="{StaticResource AnswerSignStyle}" 
+                    Text="B">
+                </TextBlock>
                 <Button 
                     IsEnabled="{Binding MyAnswer,Converter=
                                {StaticResource AnswerCharToBool},ConverterParameter='B'}"
 
                     Command="{Binding SendAnswerToSerwerCommand}"
                     CommandParameter="MyAnswerIs B"
-
                     Style="{StaticResource AnswerStyle}"
                     Content="{Binding AnswerB}">
                 </Button>
                 </WrapPanel>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="0" Margin="0,20,0,0">
-            <WrapPanel Grid.ColumnSpan="2">
-                <TextBlock   Style="{StaticResource AnswerSignStyle}">C</TextBlock>
+            <WrapPanel 
+                Grid.ColumnSpan="2">
+                <TextBlock   
+                    Style="{StaticResource AnswerSignStyle}"
+                    Text="C">
+                </TextBlock>
                 <Button 
                     IsEnabled="{Binding MyAnswer,Converter=
-                               {StaticResource AnswerCharToBool},ConverterParameter='C'}"
+                               {StaticResource AnswerCharToBool},
+                                ConverterParameter='C'}"
 
                     Command="{Binding SendAnswerToSerwerCommand}"
                     CommandParameter="MyAnswerIs C"
-
                     Style="{StaticResource AnswerStyle}"
                     Content="{Binding AnswerC}">
                 </Button>
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1" >
-            <WrapPanel Margin="0,20,0,0">
-                <TextBlock Style="{StaticResource AnswerSignStyle}">D</TextBlock>
+            <WrapPanel 
+                Margin="0,20,0,0">
+                <TextBlock 
+                    Style="{StaticResource AnswerSignStyle}"
+                    Text="D">
+                </TextBlock>
                 <Button 
                     IsEnabled="{Binding MyAnswer,Converter=
-                               {StaticResource AnswerCharToBool},ConverterParameter='D'}"
+                               {StaticResource AnswerCharToBool},
+                                ConverterParameter='D'}"
 
                     Command="{Binding SendAnswerToSerwerCommand}"
                     CommandParameter="MyAnswerIs D"
-
                     Style="{StaticResource AnswerStyle}"
                     Content="{Binding AnswerD}">
                 </Button>
             </WrapPanel>
         </Grid>
         <Grid Grid.Row="4" Grid.Column="0" ColumnSpan="2" >
-
             <StackPanel>
                 <TextBlock 
                         Text="{Binding AnswerInfo}"
                         Style="{StaticResource QuestionStyle}"
                         HorizontalAlignment="Center"
                         Background="LightSlateGray"
-                        Width="200"
-                ></TextBlock>
+                        Width="200">
+                </TextBlock>
                 <TextBlock 
                     Text="{Binding MyPoints}"
                     Style="{StaticResource QuestionStyle}"
                     HorizontalAlignment="Center"
                     Background="LightSlateGray"
-                    Width="200"
-                ></TextBlock>
+                    Width="200">
+                </TextBlock>
             </StackPanel>
         </Grid>
     </Grid>

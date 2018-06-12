@@ -12,6 +12,7 @@ namespace Client.ViewModel.Commands
         {
             _vm = viewModel;
         }
+
         public bool CanExecute(object parameter)
         {
             if (_vm.MyNetworkStream is null) return false;
@@ -21,16 +22,16 @@ namespace Client.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-
             if (parameter.ToString().Split()[0] == "MyAnswerIs")
             {
+                if (!string.IsNullOrEmpty(_vm.MyAnswer)) return;
                 _vm.MyAnswer = parameter.ToString().Split()[1];
             }
 
             string data = parameter.ToString();
             if (!string.IsNullOrEmpty(data))
             {
-                byte[] buffer = Encoding.ASCII.GetBytes(data);
+                byte[] buffer = Encoding.UTF8.GetBytes(data);
                 _vm.MyClient.GetStream().Write(buffer, 0, buffer.Length);
             }
         }

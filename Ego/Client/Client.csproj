@@ -63,8 +63,8 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ConnectToServerCommand.cs" />
     <Compile Include="Commands\SendAnswerToSerwer.cs" />
-    <Compile Include="Converts\AnswerCharToBackgroundColor.cs" />
     <Compile Include="Converts\AnswerCharToBool.cs" />
+    <Compile Include="Converts\ErrorStingToBool.cs" />
     <Compile Include="Converts\StringToVisibilityConverter.cs" />
     <Compile Include="Model\InGameModel.cs" />
     <Compile Include="Model\QuestionModel.cs" />
@@ -89,6 +89,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\LoggingStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\InGameStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

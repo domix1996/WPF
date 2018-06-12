@@ -18,7 +18,7 @@ namespace SerwerKonsola
 
     class Program
     {
-        static readonly object _lock = new object();
+        //static readonly object _lock = new object();
         static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
         static Dictionary<int, Player> PlayersList = new Dictionary<int, Player>();
         static int answerCount = 0;
@@ -33,13 +33,15 @@ namespace SerwerKonsola
             TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
             ServerSocket.Start();
 
-            while (true) 
+            while (true)
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
 
-                lock (_lock) list_clients.Add(count, client);
-                lock (_lock) PlayersList.Add(count, new Player(count, client));
-               // Console.WriteLine("Someone connected!!");
+                //lock (_lock) list_clients.Add(count, client);
+                //lock (_lock) PlayersList.Add(count, new Player(count, client));                
+                list_clients.Add(count, client);
+                PlayersList.Add(count, new Player(count, client));
+                //Console.WriteLine("Someone connected!!");
                 Thread t = new Thread(HandleClient);
                 t.Start(count);
                 Console.WriteLine(count);
@@ -57,75 +59,41 @@ namespace SerwerKonsola
 
             Player player = PlayersList[ID];
 
-            while (true) 
+            while (true)
             {
                 NetworkStream stream = player.PlayerTcpClient.GetStream();
                 byte[] received = new byte[1024];
                 int byte_count = stream.Read(received, 0, received.Length);
+
 
                 if (byte_count == 0) break;
 
                 Process(received, player);
             }
 
-            lock (_lock) list_clients.Remove(ID);
+            list_clients.Remove(ID);
+            // lock (_lock) list_clients.Remove(ID);
             player.PlayerTcpClient.Client.Shutdown(SocketShutdown.Both);
             player.PlayerTcpClient.Close();
         }
 
-        /// <summary>
-        /// nie wysyĹ‚aj do clientExcluded,bo od niego dostaĹ‚eĹ›
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="clientExcluded"></param>
-        public static void DataBroadcast(string data, Player playerExcluded)
-        {
-            byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
+        //public static void DataBroadcast(string data, Player playerExcluded)
+        //{
+        //    byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
 
-            lock (_lock)
-            {
-                for (int i = 0; i < PlayersList.Count; i++)
-                {
-                    if (PlayersList[i] != playerExcluded)
-                        SentDataToPlayer(data, PlayersList[i]);
-                }
-            }
-        }
+        //    lock (_lock)
+        //    {
+        //        for (int i = 0; i < PlayersList.Count; i++)
+        //        {
+        //            if (PlayersList[i] != playerExcluded)
+        //                SentDataToPlayer(data, PlayersList[i]);
+        //        }
+        //    }
+        //}
 
-        public static void DataBroadcast(string data)
-        {
-            byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
 
-            //lock (_lock)
-            //{
-                for (int i = 0; i < PlayersList.Count; i++)
-                {
-                    SentDataToPlayer(buffer, PlayersList[i]);
-                }
-           // }
-        }
 
-        public static void SentDataToPlayer(string data, Player player)
-        {
-            //lock (_lock)
-           // {
-                byte[] buffer = Encoding.ASCII.GetBytes(data + Environment.NewLine);
 
-                NetworkStream stream = player.PlayerTcpClient.GetStream();
-                stream.Write(buffer, 0, buffer.Length);
-            //}
-        }
-
-        public static void SentDataToPlayer(byte[] data, Player player)
-        {
-          //  lock (_lock)
-           // {
-                NetworkStream stream = player.PlayerTcpClient.GetStream();
-                stream.Write(data, 0, data.Length);
-          //  }
-        }
-
-      
         public static void Process(byte[] receivedBytes, Player player)
         {
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
@@ -136,9 +104,8 @@ namespace SerwerKonsola
             {
                 case "MyNameIs": //gracz zmienia swoją nazwę
                     {
-                         Console.WriteLine($"{commandValue} dołączył do gry");
+                        Console.WriteLine($"{commandValue} dołączył do gry");
 
-                        //Console.WriteLine($"\n{player.PlayerName}  zmienił nazwę  na {commandValue}");
                         player.PlayerName = commandValue;
                         break;
                     }
@@ -146,15 +113,15 @@ namespace SerwerKonsola
                 case "MyAnswerIs": //gracz udziela odpowiedzi
                     {
                         player.LastAnswer = commandValue[1];
-                        Console.WriteLine($"\n {player.PlayerName}: Moja odpowiedz to {player.LastAnswer}");
+                        Console.WriteLine($"\n\t{player.PlayerName}: Moja odpowiedz to {player.LastAnswer}");
                         answerCount++;
-                       // CheckConnectionsWithPlayers();
                         if (answerCount == NumberOfPlayers)
                         {
                             answerCount = 0;
                             AnswerProceed();
+                            Thread.Sleep(7000);
+                            SendNextQuestionToPlayers();
                         }
-
                     }
                     break;
                 case "NextQuestion": //gracz udziela odpowiedzi
@@ -179,10 +146,37 @@ namespace SerwerKonsola
             }
 
         }
+        public static void DataBroadcast(byte[]  utf8Data)
+        {
+            for (int i = 0; i < PlayersList.Count; i++)
+            {
+                SentDataToPlayer(utf8Data, PlayersList[i]);
+            }
+        }
+        public static void DataBroadcast(string data)
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes(data);
+
+            for (int i = 0; i < PlayersList.Count; i++)
+            {
+                SentDataToPlayer(buffer, PlayersList[i]);
+            }
+        }
+        public static void SentDataToPlayer(string data, Player player)
+        {
+            byte[] buffer = Encoding.UTF8.GetBytes(data);
+            NetworkStream stream = player.PlayerTcpClient.GetStream();
+            stream.Write(buffer, 0, buffer.Length);
+        }
+        public static void SentDataToPlayer(byte[] utf8Data, Player player)
+        {
+            NetworkStream stream = player.PlayerTcpClient.GetStream();
+            stream.Write(utf8Data, 0, utf8Data.Length);
+        }
 
         static public void SendQuestionToPlayers(Question question)
         {
-            Console.WriteLine("----------------------------------");
+            Console.WriteLine("----------------------------------------\n");
             Console.WriteLine($"Wysyłam pytanie  {question.QuestionNumber}/{question.QuestionNumberTotal}");
             StringBuilder sb = new StringBuilder();
             sb.Append("ThisIsNewQuestion+=+");
@@ -215,30 +209,10 @@ namespace SerwerKonsola
                 SentDataToPlayer($"YourPoints+=+{player.Points.ToString()}", player);
 
             }
-            Thread.Sleep(5000);
-            SendNextQuestionToPlayers();
-
+            
         }
 
-        //static public void CheckConnectionsWithPlayers()
-        //{
-        //    for (int i = 0; i < PlayersList.Count; i++)
-        //    {
-        //        var tcpClient = PlayersList[i].PlayerTcpClient.Client;
-                
-        //        bool ok =
 
-        //            tcpClient.Poll(01, SelectMode.SelectWrite) &&
-
-        //            tcpClient.Poll(01, SelectMode.SelectRead) && 
-        //            !tcpClient.Poll(01, SelectMode.SelectError) ? true : false;
-        //        if (!ok)
-        //        {
-        //            PlayersList.Remove(i);
-        //            NumberOfPlayers--;
-        //        }
-        //    }
-        //}
     }
 
 

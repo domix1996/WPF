@@ -145,7 +145,7 @@
     <value>Pierwiastek z 15</value>
   </data>
   <data name="D1" xml:space="preserve">
-    <value>Kot ten nie ma lap</value>
+    <value>Kot ten nie ma łap</value>
   </data>
   <data name="D2" xml:space="preserve">
     <value>1 wystarczy</value>
@@ -166,7 +166,7 @@
     <value>A</value>
   </data>
   <data name="Pytanie1" xml:space="preserve">
-    <value>Ile lap ma kot Ali?</value>
+    <value>Ile łap ma kot Ali?</value>
   </data>
   <data name="Pytanie2" xml:space="preserve">
     <value>Ilu potrzeba programistow aby zmienic  zarowke?</value>
