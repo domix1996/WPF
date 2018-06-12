@@ -18,46 +18,56 @@ namespace SerwerKonsola
 
     class Program
     {
-        //static readonly object _lock = new object();
-        static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
-        static Dictionary<int, Player> PlayersList = new Dictionary<int, Player>();
-        static int answerCount = 0;
-        private static int NumberOfPlayers { get; set; } = 2;
 
-        public static QuestionManager _questionManager { get; set; }
-        static void Main(string[] args)
+       // private Dictionary<int, TcpClient> _listOfClients;// = new Dictionary<int, TcpClient>();
+        private Dictionary<int, Player> _listOfPlayers;// = new Dictionary<int, Player>();
+        private QuestionManager _questionManager;
+
+        private int _numberOfPlayers;
+        private int _answerCount;
+        private int _playersCount;
+
+        public int Port;
+
+        void Main(string[] args)
         {
-            _questionManager = new QuestionManager();
-            _questionManager.GetQuestionsFromFile();
-            int count = 0;
-            TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
-            ServerSocket.Start();
+            _questionManager=new QuestionManager();
+            _playersCount = 0;
+            Port = 5000;
 
+            // _questionManager = new QuestionManager();
+            // _questionManager.GetQuestionsFromFile();
+            TcpListener ServerSocket = new TcpListener(IPAddress.Any, Port);
+            ServerSocket.Start();
+            Console.WriteLine($"Uruchomiono serwe na adresie {Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString()} i porcie {Port}");
+            Console.WriteLine("\n Wprowadź liczbę graczy: ");
+            _numberOfPlayers = Int32.Parse(Console.ReadLine());
             while (true)
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
 
-                //lock (_lock) list_clients.Add(count, client);
-                //lock (_lock) PlayersList.Add(count, new Player(count, client));                
-                list_clients.Add(count, client);
-                PlayersList.Add(count, new Player(count, client));
-                //Console.WriteLine("Someone connected!!");
+                //_listOfClients.Add(_playersCount, client);
+                _listOfPlayers.Add(_playersCount, new Player(_playersCount, client));
                 Thread t = new Thread(HandleClient);
-                t.Start(count);
-                Console.WriteLine(count);
-                count++;
-                if (count == NumberOfPlayers)
+                t.Start(_playersCount);
+                Console.WriteLine(_playersCount);
+                _playersCount++;
+                if (_playersCount == _numberOfPlayers)
                 {
                     SendNextQuestionToPlayers();
                 }
             }
         }
 
+
+
+        #region StaticMethods
+
         public static void HandleClient(object id)
         {
             int ID = (int)id;
 
-            Player player = PlayersList[ID];
+            Player player = _listOfPlayers[ID];
 
             while (true)
             {
@@ -71,29 +81,11 @@ namespace SerwerKonsola
                 Process(received, player);
             }
 
-            list_clients.Remove(ID);
-            // lock (_lock) list_clients.Remove(ID);
+            _listOfClients.Remove(ID);
+            // lock (_lock) _listOfClients.Remove(ID);
             player.PlayerTcpClient.Client.Shutdown(SocketShutdown.Both);
             player.PlayerTcpClient.Close();
         }
-
-        //public static void DataBroadcast(string data, Player playerExcluded)
-        //{
-        //    byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
-
-        //    lock (_lock)
-        //    {
-        //        for (int i = 0; i < PlayersList.Count; i++)
-        //        {
-        //            if (PlayersList[i] != playerExcluded)
-        //                SentDataToPlayer(data, PlayersList[i]);
-        //        }
-        //    }
-        //}
-
-
-
-
         public static void Process(byte[] receivedBytes, Player player)
         {
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
@@ -114,10 +106,10 @@ namespace SerwerKonsola
                     {
                         player.LastAnswer = commandValue[1];
                         Console.WriteLine($"\n\t{player.PlayerName}: Moja odpowiedz to {player.LastAnswer}");
-                        answerCount++;
-                        if (answerCount == NumberOfPlayers)
+                        _answerCount++;
+                        if (_answerCount == _numberOfPlayers)
                         {
-                            answerCount = 0;
+                            _answerCount = 0;
                             AnswerProceed();
                             Thread.Sleep(7000);
                             SendNextQuestionToPlayers();
@@ -131,9 +123,9 @@ namespace SerwerKonsola
                     break;
             }
         }
-
-        static public void SendNextQuestionToPlayers()
+        public static void SendNextQuestionToPlayers()
         {
+            
             _questionManager.NextQuestion();
             Question question = _questionManager.GetCurrentQuestion();
             if (question != null)
@@ -146,25 +138,25 @@ namespace SerwerKonsola
             }
 
         }
-        public static void DataBroadcast(byte[]  utf8Data)
+        public static void DataBroadcast(byte[] utf8Data)
         {
-            for (int i = 0; i < PlayersList.Count; i++)
+            for (int i = 0; i < _listOfPlayers.Count; i++)
             {
-                SentDataToPlayer(utf8Data, PlayersList[i]);
+                SentDataToPlayer(utf8Data, _listOfPlayers[i]);
             }
         }
         public static void DataBroadcast(string data)
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(data+Environment.NewLine);
+            byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
 
-            for (int i = 0; i < PlayersList.Count; i++)
+            for (int i = 0; i < _listOfPlayers.Count; i++)
             {
-                SentDataToPlayer(buffer, PlayersList[i]);
+                SentDataToPlayer(buffer, _listOfPlayers[i]);
             }
         }
         public static void SentDataToPlayer(string data, Player player)
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(data+Environment.NewLine);
+            byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
             NetworkStream stream = player.PlayerTcpClient.GetStream();
             stream.Write(buffer, 0, buffer.Length);
         }
@@ -173,8 +165,7 @@ namespace SerwerKonsola
             NetworkStream stream = player.PlayerTcpClient.GetStream();
             stream.Write(utf8Data, 0, utf8Data.Length);
         }
-
-        static public void SendQuestionToPlayers(Question question)
+        public static void SendQuestionToPlayers(Question question)
         {
             Console.WriteLine("----------------------------------------\n");
             Console.WriteLine($"Wysyłam pytanie  {question.QuestionNumber}/{question.QuestionNumberTotal}");
@@ -190,13 +181,12 @@ namespace SerwerKonsola
             sb.Append($"T:{question.QuestionNumberTotal}\n\n");
             DataBroadcast(sb.ToString());
         }
-
-        static public void AnswerProceed()
+        public static void AnswerProceed()
         {
 
-            for (int i = 0; i < NumberOfPlayers; i++)
+            for (int i = 0; i < _numberOfPlayers; i++)
             {
-                Player player = PlayersList[i];
+                Player player = _listOfPlayers[i];
                 if (player.LastAnswer == _questionManager.GetCurrentQuestion().CorrectAnswer)
                 {
                     SentDataToPlayer(Resources.GoodAnswerString, player);
@@ -209,8 +199,10 @@ namespace SerwerKonsola
                 SentDataToPlayer($"YourPoints+=+{player.Points}+=+", player);
 
             }
-            
+
         }
+
+        #endregion
 
 
     }
