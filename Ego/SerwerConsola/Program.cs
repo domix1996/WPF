@@ -30,9 +30,12 @@ namespace SerwerKonsola
             _questionManager = new QuestionManager();
             _questionManager.GetQuestionsFromFile();
             int count = 0;
-            TcpListener ServerSocket = new TcpListener(IPAddress.Any, 5000);
+            int port = 5000;
+            TcpListener ServerSocket = new TcpListener(IPAddress.Any, port);
             ServerSocket.Start();
-
+            Console.WriteLine($"Uruchomiono serwe na adresie {Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString()} i porcie{port}");
+            Console.WriteLine("\n Wprowadź liczbę graczy: ");
+            NumberOfPlayers=Int32.Parse(Console.ReadLine());
             while (true)
             {
                 TcpClient client = ServerSocket.AcceptTcpClient();
