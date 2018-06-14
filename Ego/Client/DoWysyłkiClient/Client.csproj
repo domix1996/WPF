@@ -64,7 +64,6 @@
     <Compile Include="Commands\ConnectToServerCommand.cs" />
     <Compile Include="Commands\SendAnswerToSerwer.cs" />
     <Compile Include="Converts\AnswerCharToBool.cs" />
-    <Compile Include="Converts\AnswerInfoToBackgroundColor.cs" />
     <Compile Include="Converts\ErrorStingToBool.cs" />
     <Compile Include="Converts\StringToVisibilityConverter.cs" />
     <Compile Include="Model\InGameModel.cs" />

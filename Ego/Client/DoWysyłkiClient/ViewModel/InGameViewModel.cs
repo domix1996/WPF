@@ -188,11 +188,7 @@ namespace Client.ViewModel
                         MyPoints = Int32.Parse(content[1]);
                     }
                     break;
-                case "Time":
-                {
-                    AnswerInfo = $"Next round in {content[1]}!!";
-                }
-                    break;
+
             }
         }
 

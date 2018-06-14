@@ -11,10 +11,9 @@
     <Window.Resources>
         <vm:InGameViewModel x:Key="InGameVM"></vm:InGameViewModel>
         <converts:StringToVisibilityConverter x:Key="StringToVisibilityConverter"></converts:StringToVisibilityConverter>
-      <converts:AnswerInfoToBackgroundColor x:Key="AnswerInfoToBackgroundColor"></converts:AnswerInfoToBackgroundColor>
         <converts:AnswerCharToBool x:Key="AnswerCharToBool"></converts:AnswerCharToBool>
     </Window.Resources>
-    <Grid DataContext="{StaticResource InGameVM}" Background="{Binding AnswerInfo,Converter={StaticResource AnswerInfoToBackgroundColor}}">
+    <Grid DataContext="{StaticResource InGameVM}" Background="DarkCyan">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*" ></RowDefinition>
             <RowDefinition Height="2*" ></RowDefinition>
@@ -133,7 +132,7 @@
                         Width="200">
                 </TextBlock>
                 <TextBlock 
-                    Text="{Binding MyPoints,StringFormat=Twoje punkty: {0}}"
+                    Text="{Binding MyPoints}"
                     Style="{StaticResource QuestionStyle}"
                     HorizontalAlignment="Center"
                     Background="LightSlateGray"

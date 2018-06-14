@@ -117,61 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="A1" xml:space="preserve">
-    <value>Kot Ali ma 4 łapy</value>
-  </data>
-  <data name="A2" xml:space="preserve">
-    <value>To problem hardwerowy</value>
-  </data>
-  <data name="A3" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="B1" xml:space="preserve">
-    <value>Nie wiem</value>
-  </data>
-  <data name="B2" xml:space="preserve">
-    <value>Oni nic nie mogą zmienić</value>
-  </data>
-  <data name="B3" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="C1" xml:space="preserve">
-    <value>Kot Ali ma 3 łapy</value>
-  </data>
-  <data name="C2" xml:space="preserve">
-    <value>I tak Cię na nich nie stać</value>
-  </data>
-  <data name="C3" xml:space="preserve">
-    <value>Pierwiastek z 15</value>
-  </data>
-  <data name="D1" xml:space="preserve">
-    <value>Kot ten nie ma łap</value>
-  </data>
-  <data name="D2" xml:space="preserve">
-    <value>1 wystarczy</value>
-  </data>
-  <data name="D3" xml:space="preserve">
-    <value>-2</value>
-  </data>
-  <data name="IlePytań" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Odpowiedz1" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="Odpowiedz2" xml:space="preserve">
-    <value>A</value>
-  </data>
-  <data name="Odpowiedz3" xml:space="preserve">
-    <value>A</value>
-  </data>
-  <data name="Pytanie1" xml:space="preserve">
-    <value>Ile łap ma kot Ali?</value>
-  </data>
-  <data name="Pytanie2" xml:space="preserve">
-    <value>Ilu potrzeba programistów aby zmienić  żarowkę?</value>
-  </data>
-  <data name="Pytanie3" xml:space="preserve">
-    <value>Ile to jest 2+2 ?</value>
+  <data name="IpValidationRegexString" xml:space="preserve">
+    <value>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)</value>
+    <comment>String służący do validacji adresu IP</comment>
   </data>
 </root>

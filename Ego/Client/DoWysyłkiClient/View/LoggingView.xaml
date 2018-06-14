@@ -1,0 +1,59 @@
+﻿<Window x:Class="Client.View.LoggingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        xmlns:vm="clr-namespace:Client.ViewModel"
+        xmlns:converts="clr-namespace:Client.Converts"
+        mc:Ignorable="d"
+        Title="LoggingView" Height="600" Width="400">
+    <Window.Resources>
+        <vm:LoggingViewModel x:Key="LoggingVm"></vm:LoggingViewModel>
+        <converts:ErrorStingToBool x:Key="ErrorStingToBool"></converts:ErrorStingToBool>
+    </Window.Resources>
+    <Grid 
+        DataContext="{StaticResource LoggingVm}" 
+          Background="DarkCyan">
+        <StackPanel>
+            <TextBlock 
+                Style="{StaticResource LabelsStyle}">
+                 Twoja nazwa
+            </TextBlock>
+            <TextBox 
+                Style="{StaticResource InputsStyle }" 
+                Text="{Binding MyName,Mode=TwoWay,
+                       UpdateSourceTrigger=LostFocus,
+                       ValidatesOnDataErrors=True,
+                       NotifyOnValidationError=True, 
+                       ValidatesOnExceptions=True}" >
+            </TextBox>
+            <TextBlock
+                Style="{StaticResource LabelsStyle}" Text="Adres Hosta">
+            </TextBlock>
+            <TextBox 
+                Style="{StaticResource InputsStyle}"
+                Text="{Binding HostIp,Mode=TwoWay,
+                       UpdateSourceTrigger=PropertyChanged,
+                       ValidatesOnDataErrors=True}">
+            </TextBox>
+            <TextBlock 
+                Style="{StaticResource LabelsStyle}"
+                Text="Port Hosta">
+            </TextBlock>
+            <TextBox 
+                Style="{StaticResource InputsStyle }" 
+                Text="{Binding HostPort,Mode=TwoWay, 
+                       UpdateSourceTrigger=PropertyChanged,
+                       ValidatesOnDataErrors=True}">
+            </TextBox>
+            <Button 
+                IsEnabled="{Binding Error,
+                    Converter={StaticResource ErrorStingToBool}}"
+                Command="{Binding ConnectToServer}" 
+                Style="{StaticResource ButtonStyle}"
+                Content="Połącz z serwerem">
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

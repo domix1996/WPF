@@ -61,7 +61,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kot Ali ma 4 lapy.
+        ///   Looks up a localized string similar to Kot Ali ma 4 łapy.
         /// </summary>
         internal static string A1 {
             get {
@@ -97,7 +97,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Programisci nic nie moga zmienic.
+        ///   Looks up a localized string similar to Oni nic nie mogą zmienić.
         /// </summary>
         internal static string B2 {
             get {
@@ -115,7 +115,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kot Ali ma 3 lap.
+        ///   Looks up a localized string similar to Kot Ali ma 3 łapy.
         /// </summary>
         internal static string C1 {
             get {
@@ -124,7 +124,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I tak Cie na nich nie stac.
+        ///   Looks up a localized string similar to I tak Cię na nich nie stać.
         /// </summary>
         internal static string C2 {
             get {
@@ -214,7 +214,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ilu potrzeba programistow aby zmienic  zarowke?.
+        ///   Looks up a localized string similar to Ilu potrzeba programistów aby zmienić  żarowkę?.
         /// </summary>
         internal static string Pytanie2 {
             get {
