@@ -30,11 +30,20 @@ namespace SerwerKonsola
             _questionManager.GetQuestionsFromFile();
             int count = 0;
             int port = 5000;
-            TcpListener ServerSocket = new TcpListener(IPAddress.Any, port);
-            ServerSocket.Start();
-            Console.WriteLine($"Uruchomiono serwe na adresie {Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString()} i porcie{port}");
+            IPHostEntry ipEntry = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress[] addr = ipEntry.AddressList;
+
+            for (int i = 4; i < addr.Length; i++)
+            {
+                Console.WriteLine("IP Address {0}: {1} ", i, addr[i].ToString());
+            }
+            Console.WriteLine($"Uruchomiono serwe na porcie  {port}");
+            //Console.WriteLine($"{Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString()} i porcie{port}");
             Console.WriteLine("\n Wprowadź liczbę graczy: ");
             NumberOfPlayers = Int32.Parse(Console.ReadLine());
+            TcpListener ServerSocket = new TcpListener(IPAddress.Any, port);
+            ServerSocket.Start();
+
             if (NumberOfPlayers < 0) return;
             while (true)
             {
@@ -43,10 +52,10 @@ namespace SerwerKonsola
                              
                 list_clients.Add(count, client);
                 PlayersList.Add(count, new Player(count, client));
-                Console.WriteLine("Someone connected!!");
+               // Console.WriteLine("Someone connected!!");
                 Thread t = new Thread(HandleClient);
                 t.Start(count);
-                Console.WriteLine(count);
+                //Console.WriteLine(count);
                 count++;
                 if (count == NumberOfPlayers)
                 {
@@ -81,6 +90,7 @@ namespace SerwerKonsola
 
         public static void Process(byte[] receivedBytes, Player player)
         {
+            //string data =Base64Crypting.Base64Crypting.ByteArrayToStrign(receivedBytes).Replace("\0", "");
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
             string command = data.Split()[0];
             string commandValue = data.Substring(data.IndexOf(' ') >= 0 ? data.IndexOf(' ') : 0);
@@ -104,7 +114,12 @@ namespace SerwerKonsola
                         {
                             answerCount = 0;
                             AnswerProceed();
-                            Thread.Sleep(7000);
+                            Thread.Sleep(3000);
+                            for (int i = 0; i < 7; i++)
+                            {
+                                DataBroadcast($"Time+=+{7-i}");
+                            Thread.Sleep(1000);
+                            }
                             SendNextQuestionToPlayers();
                         }
                     }
@@ -141,7 +156,7 @@ namespace SerwerKonsola
         public static void DataBroadcast(string data)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
-
+            //byte[] buffer = Base64Crypting.Base64Crypting.StringtoByteArray(data + Environment.NewLine);
             for (int i = 0; i < PlayersList.Count; i++)
             {
                 SentDataToPlayer(buffer, PlayersList[i]);
@@ -149,14 +164,15 @@ namespace SerwerKonsola
         }
         public static void SentDataToPlayer(string data, Player player)
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
+           // byte[] buffer = Base64Crypting.Base64Crypting.StringtoByteArray(data + Environment.NewLine);
+           byte[] buffer = Encoding.UTF8.GetBytes(data + Environment.NewLine);
             NetworkStream stream = player.PlayerTcpClient.GetStream();
             stream.Write(buffer, 0, buffer.Length);
         }
-        public static void SentDataToPlayer(byte[] utf8Data, Player player)
+        public static void SentDataToPlayer(byte[] data, Player player)
         {
             NetworkStream stream = player.PlayerTcpClient.GetStream();
-            stream.Write(utf8Data, 0, utf8Data.Length);
+            stream.Write(data, 0, data.Length);
         }
 
         static public void SendQuestionToPlayers(Question question)

@@ -113,7 +113,7 @@
                         Background="LightSlateGray"
                         Width="200"/>
                 <TextBlock 
-                    Text="{Binding MyPoints}"
+                    Text="{Binding MyPoints,StringFormat=Twoje punkty: {0}}"
                     Style="{StaticResource QuestionStyle}"
                     Background="LightSlateGray"
                     Width="200"/>

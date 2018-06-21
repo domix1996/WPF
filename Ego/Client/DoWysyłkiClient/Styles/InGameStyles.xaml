@@ -23,7 +23,7 @@
         <Setter Property="TextWrapping" Value="Wrap"></Setter>
     </Style>
     <Style TargetType="Button" x:Key="AnswerStyle">
-        <Setter Property="FontSize" Value="24"></Setter>
+        <Setter Property="FontSize" Value="18"></Setter>
         <Setter Property="Height" Value="80"></Setter>
         <Setter Property="Width" Value="250"></Setter>
         <Setter  Property="BorderThickness" Value="0"></Setter>
