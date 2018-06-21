@@ -12,10 +12,10 @@ namespace Client.Converts
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (targetType != typeof(Brush)) return null;
-            if( value is null ||(String.IsNullOrEmpty(value.ToString()))) return new SolidColorBrush(Colors.DarkCyan);
-            if(value == "Good answer!!") return new SolidColorBrush(Colors.Green);
-            if(value== "Bad answer!!") return new SolidColorBrush(Colors.Red);
-            else return new SolidColorBrush(Colors.DarkCyan);
+            if( value is null ||(String.IsNullOrEmpty(value.ToString()))) return new RadialGradientBrush(Colors.Blue, Colors.SlateBlue);
+            if(value == "Good answer!!") return new RadialGradientBrush(Colors.Green,Colors.Chartreuse);
+            if(value== "Bad answer!!") return new RadialGradientBrush(Colors.Red,Colors.Maroon);
+            else return new RadialGradientBrush(Colors.Blue,Colors.SlateBlue);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

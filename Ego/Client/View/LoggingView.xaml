@@ -13,9 +13,13 @@
         <converts:ErrorStingToBool x:Key="ErrorStingToBool"></converts:ErrorStingToBool>
     </Window.Resources>
     <Grid 
+
         DataContext="{StaticResource LoggingVm}" 
           Background="DarkCyan">
-        <StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible"></ScrollViewer>
+
+<StackPanel>
+
             <TextBlock 
                 Style="{StaticResource LabelsStyle}">
                  Twoja nazwa
