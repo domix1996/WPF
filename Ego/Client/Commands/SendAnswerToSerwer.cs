@@ -22,13 +22,20 @@ namespace Client.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            if (parameter.ToString().Split()[0] == "MyAnswerIs")
+            string data = String.Empty;
+
+            if (parameter.ToString().Split()[0] == "MyNameIs")
             {
-                if (!string.IsNullOrEmpty(_vm.MyAnswer)) return;
-                _vm.MyAnswer = parameter.ToString().Split()[1];
+                 data = parameter.ToString();
             }
 
-            string data = parameter.ToString();
+            else if (parameter.ToString().Split()[0] != "MyNameIs")
+            {
+                if (!string.IsNullOrEmpty(_vm.MyAnswer)) return;
+                _vm.MyAnswer = parameter.ToString();
+                data = $"MyAnswerIs {parameter.ToString()}";
+            }
+            
             if (!string.IsNullOrEmpty(data))
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(data);

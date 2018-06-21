@@ -24,8 +24,12 @@ namespace Client.View
         public InGameView()
         {
             InitializeComponent();
+            DataContext=new InGameViewModel();
         }
 
-       
+        private void AnswerUserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

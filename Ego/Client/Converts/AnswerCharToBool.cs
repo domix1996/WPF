@@ -10,7 +10,7 @@ namespace Client.Converts
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (targetType != typeof(bool)) return null;
-            if (value is null||string.IsNullOrEmpty(value.ToString())) return true;
+            if (string.IsNullOrEmpty(value.ToString())) return true;
             if (parameter.Equals(value)) return true;
             return false;
         }

@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:Client"
         xmlns:vm="clr-namespace:Client.ViewModel"
         xmlns:converts="clr-namespace:Client.Converts"
+        xmlns:uc="clr-namespace:Client.View"
         mc:Ignorable="d"
-        Title="LoggingView" Height="600" Width="400">
+        Title="LoggingView" Height="600" Width="400"
+        DataContext="{Binding RelativeSource={RelativeSource self}}">
     <Window.Resources>
+        <vm:LoggingViewModel x:Key="LoggingViewModel"></vm:LoggingViewModel>
         <vm:LoggingViewModel x:Key="LoggingVm"></vm:LoggingViewModel>
         <converts:ErrorStingToBool x:Key="ErrorStingToBool"></converts:ErrorStingToBool>
     </Window.Resources>

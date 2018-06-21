@@ -97,7 +97,7 @@ namespace SerwerConsola.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Programisci nic nie moga zmienic.
+        ///   Looks up a localized string similar to Oni nic nie zmienią.
         /// </summary>
         internal static string B2 {
             get {

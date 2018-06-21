@@ -1,17 +1,11 @@
-﻿using System;
+﻿using Client.Model;
+using Client.ViewModel.Commands;
+using System;
 using System.ComponentModel;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
-using Client.Annotations;
-using Client.Model;
-
-using Client.Properties;
-using Client.ViewModel.Commands;
 
 namespace Client.ViewModel
 {
@@ -146,10 +140,20 @@ namespace Client.ViewModel
             byte[] receivedBytes = new byte[1024];
             int byteCount = 0;
 
-            while ((byteCount = stream.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
-            {
-                Process(receivedBytes);
+            try
+            {   while ((byteCount = stream.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+                {
+                    Process(receivedBytes);
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show("Utracono połączenie z serwere ;( \nAplikacja zostanie wyłączona");
+                Console.WriteLine(e);
+                Environment.Exit(0);
+            }
+         
+            
         }
 
         public void Process(byte[] receivedBytes)

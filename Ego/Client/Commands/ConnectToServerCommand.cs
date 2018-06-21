@@ -27,7 +27,7 @@ namespace Client.ViewModel.Commands
             {
                 TcpClient client = new TcpClient(_loggingViewModel.HostIp, Int32.Parse(_loggingViewModel.HostPort));
                 _loggingViewModel.InGameView = new InGameView();
-                InGameViewModel inGameViewModel = _loggingViewModel.InGameView.Resources["InGameVM"] as InGameViewModel;
+                InGameViewModel inGameViewModel = _loggingViewModel.InGameView.DataContext as InGameViewModel;
 
                 inGameViewModel.MyClient = client;
                 inGameViewModel.MyNetworkStream = client.GetStream();//łączy do serwera
