@@ -1,22 +1,16 @@
-﻿using System;
+﻿using Client.Model;
+using Client.ViewModel.Commands;
+using System;
 using System.ComponentModel;
 using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
-using Client.Annotations;
-using Client.Model;
-
-using Client.Properties;
-using Client.ViewModel.Commands;
 
 namespace Client.ViewModel
 {
 
-    public class InGameViewModel : INotifyPropertyChanged
+    public class GameViewModel : INotifyPropertyChanged
     {
         #region PrivateProperties
         private readonly InGameModel _inGameModel;
@@ -25,7 +19,7 @@ namespace Client.ViewModel
         #endregion
 
         #region Constructors
-        public InGameViewModel()
+        public GameViewModel()
         {
             _inGameModel = new InGameModel();
             _questionModel = new QuestionModel()
@@ -146,16 +140,26 @@ namespace Client.ViewModel
             byte[] receivedBytes = new byte[1024];
             int byteCount = 0;
 
-            while ((byteCount = stream.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+            try
             {
-                Process(receivedBytes);
+                while ((byteCount = stream.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
+                {
+                    Process(receivedBytes);
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show("Utracono połączenie z serwere ;( \nAplikacja zostanie wyłączona");
+                Console.WriteLine(e);
+                Environment.Exit(0);
+            }
+
+
         }
 
         public void Process(byte[] receivedBytes)
 
         {
-            //  string data = Base64Crypting.Base64Crypting.ByteArrayToStrign(receivedBytes).Replace("\0", "");
             string data = System.Text.Encoding.UTF8.GetString(receivedBytes).Replace("\0", "");
             string[] content = data.Split(new string[] { "+=+", "\r", "\n" }, StringSplitOptions.None);
             switch (content[0])
@@ -188,7 +192,11 @@ namespace Client.ViewModel
                         MyPoints = Int32.Parse(content[1]);
                     }
                     break;
-
+                case "Time":
+                    {
+                        AnswerInfo = $"Next round in {content[1]}!!";
+                    }
+                    break;
             }
         }
 

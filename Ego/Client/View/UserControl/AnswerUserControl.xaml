@@ -7,56 +7,57 @@
        DataContext="{Binding RelativeSource={RelativeSource self}}" >
     <UserControl.Resources>
         <Style TargetType="Button"  >
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Height" Value="60"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Margin" Value="45,0,0,0"/>
             <Setter Property="Width" Value="300"></Setter>
-            <Setter Property="Padding" Value="20,0,0,0"/>
-            <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="Chocolate" />
-                    <Setter Property="Background" Value="Red" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="True">
-                    <Setter Property="Foreground" Value="White" />
-                    <Setter Property="Background" Value="CornflowerBlue" />
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="Background" Value="#6AB6A1"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
         </Style>
 
-        <Style TargetType="Border" x:Key="BorderStyle">
+        <Style TargetType="TextBlock" x:Key="UnderLineStyle">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Background" Value="#346964"/>
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="Width" Value="350"></Setter>
+            <Setter Property="Height" Value="5"></Setter>
+
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="SignStyle">
             <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Height" Value="60"/>
-            <Setter Property="Width" Value="60"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="AntiqueWhite"/>
-            <Setter Property="CornerRadius" Value="90"/>
-            <Setter Property="Margin" Value="0,0,0,0"/>
-            <Setter Property="Padding" Value="0,0,0,0"/>
-        </Style>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="42"></Setter>
+            <Setter Property="Width" Value="60"></Setter>
+            <Setter Property="Height" Value="60"></Setter>
+            <Setter Property="Background" Value="#599C87"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+            <Setter Property="Padding" Value="15,0,0,0"></Setter>
 
-        <Style TargetType="TextBlock" >
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="42"/>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+
         </Style>
 
     </UserControl.Resources>
-    <Grid Width="{Binding Width}"
-          Height="{Binding Height}">
+    <Grid>
+        
+        <TextBlock Style="{StaticResource UnderLineStyle}"></TextBlock>
         <Button 
                 Content="{Binding Answer}" 
                 Command="{Binding ButtonCommand}" 
-                CommandParameter="{Binding Sign}" Margin="45,5,0,5" >
+                CommandParameter="{Binding Sign}" 
+                IsEnabled="{Binding IsEnabled}">
         </Button>
 
-        <Border Style="{StaticResource BorderStyle}">
-            <TextBlock TextWrapping="Wrap" Text="{Binding Sign}"></TextBlock>
-        </Border>
-    </Grid>
+
+        <TextBlock Style="{StaticResource SignStyle}"  Text="{Binding Sign}"></TextBlock>
+
+</Grid>
 </UserControl>

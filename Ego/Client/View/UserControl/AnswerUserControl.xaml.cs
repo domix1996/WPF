@@ -29,14 +29,14 @@ namespace Client.View.UserControl
             set => SetValue(ButtonCommandProperty, value);
         }
 
-            //public bool IsButtonEnabled
-            //{
-            //    get => (bool)GetValue(IsButtonEnabledProperty);
-            //    set => SetValue(IsButtonEnabledProperty, value);
-            //}
-            #endregion
+        public bool IsButtonEnabled
+        {
+            get => (bool)GetValue(IsButtonEnabledProperty);
+            set => SetValue(IsButtonEnabledProperty, value);
+        }
+        #endregion
 
-            #region DependencyProperties
+        #region DependencyProperties
 
         public static readonly DependencyProperty SignProperty = DependencyProperty.Register("Sign", typeof(char), typeof(AnswerUserControl),
                 new FrameworkPropertyMetadata('X', (s, e) =>
@@ -54,7 +54,6 @@ namespace Client.View.UserControl
                 }
                 ));
 
-        #endregion
         public static readonly DependencyProperty ButtonCommandProperty = DependencyProperty.Register("ButtonCommand", typeof(ICommand), typeof(AnswerUserControl),
                 new FrameworkPropertyMetadata(null, new PropertyChangedCallback((s, e) =>
                 {
@@ -62,20 +61,18 @@ namespace Client.View.UserControl
                     source.ButtonCommand = (ICommand)e.NewValue;
                 })));
 
-        //public static readonly DependencyProperty IsButtonEnabledProperty = DependencyProperty.Register("IsButtonEnabled", typeof(bool), typeof(AnswerUserControl),
-        //        new FrameworkPropertyMetadata(true, new PropertyChangedCallback((s, e) =>
-        //        {
-        //            var source = s as AnswerUserControl;
-        //            source.IsButtonEnabled = (bool)e.NewValue;
-        //        })));
+        public static readonly DependencyProperty IsButtonEnabledProperty = DependencyProperty.Register("IsButtonEnabled", typeof(bool), typeof(AnswerUserControl),
+        new FrameworkPropertyMetadata(true, new PropertyChangedCallback((s, e) =>
+                {
+            var source = s as AnswerUserControl;
+            source.IsButtonEnabled = (bool)e.NewValue;
+        })));
 
+        #endregion
 
         public AnswerUserControl()
         {
             InitializeComponent();
         }
-
-
-
     }
 }

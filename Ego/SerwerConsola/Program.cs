@@ -59,6 +59,7 @@ namespace SerwerKonsola
                 count++;
                 if (count == NumberOfPlayers)
                 {
+                    Console.WriteLine("START");
                     SendNextQuestionToPlayers();
                 }
             }
@@ -115,9 +116,9 @@ namespace SerwerKonsola
                             answerCount = 0;
                             AnswerProceed();
                             Thread.Sleep(3000);
-                            for (int i = 0; i < 7; i++)
+                            for (int i = 0; i < 4; i++)
                             {
-                                DataBroadcast($"Time+=+{7-i}");
+                                DataBroadcast($"Time+=+{4-i}");
                             Thread.Sleep(1000);
                             }
                             SendNextQuestionToPlayers();

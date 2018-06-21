@@ -6,9 +6,9 @@ namespace Client.ViewModel.Commands
 {
     public class SendDataToSerwer : ICommand
     {
-        private InGameViewModel _vm;
+        private GameViewModel _vm;
 
-        public SendDataToSerwer(InGameViewModel viewModel)
+        public SendDataToSerwer(GameViewModel viewModel)
         {
             _vm = viewModel;
         }
@@ -39,7 +39,6 @@ namespace Client.ViewModel.Commands
             if (!string.IsNullOrEmpty(data))
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
-                // byte[] buffer = Base64Crypting.Base64Crypting.StringtoByteArray(data);
                 _vm.MyClient.GetStream().Write(buffer, 0, buffer.Length);
             }
         }

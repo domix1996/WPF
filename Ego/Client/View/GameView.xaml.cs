@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Client.View
 {
     /// <summary>
-    /// Interaction logic for LoggingView.xaml
+    /// Interaction logic for GameView.xaml
     /// </summary>
-    public partial class LoggingView : Window
+    public partial class GameView : Window
     {
-        public LoggingView()
+        public GameView()
         {
             InitializeComponent();
         }

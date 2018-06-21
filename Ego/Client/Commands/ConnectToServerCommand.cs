@@ -26,8 +26,8 @@ namespace Client.ViewModel.Commands
             try
             {
                 TcpClient client = new TcpClient(_loggingViewModel.HostIp, Int32.Parse(_loggingViewModel.HostPort));
-                _loggingViewModel.InGameView = new InGameView();
-                InGameViewModel inGameViewModel = _loggingViewModel.InGameView.DataContext as InGameViewModel;
+                _loggingViewModel.GameView = new GameView();
+                GameViewModel inGameViewModel = _loggingViewModel.GameView.DataContext as GameViewModel;
 
                 inGameViewModel.MyClient = client;
                 inGameViewModel.MyNetworkStream = client.GetStream();//łączy do serwera
@@ -35,7 +35,7 @@ namespace Client.ViewModel.Commands
                 inGameViewModel.StartTransmision();
 
                 App.Current.MainWindow.Hide();
-                _loggingViewModel.InGameView.Show();
+                _loggingViewModel.GameView.Show();
 
             }
             catch (Exception ex)

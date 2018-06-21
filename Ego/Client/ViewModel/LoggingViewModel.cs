@@ -19,7 +19,7 @@ namespace Client.ViewModel
         #endregion
 
         #region PublicProperties
-        public InGameView InGameView;
+        public GameView GameView;
         #endregion
 
         #region Contructors

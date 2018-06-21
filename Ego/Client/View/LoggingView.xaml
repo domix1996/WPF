@@ -19,7 +19,6 @@
 
         DataContext="{StaticResource LoggingVm}" 
           Background="DarkCyan">
-        <ScrollViewer VerticalScrollBarVisibility="Visible"></ScrollViewer>
 
 <StackPanel>
 
