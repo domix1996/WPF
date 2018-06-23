@@ -19,7 +19,7 @@
             <Setter Property="Background" Value="#6AB6A1"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
         </Style>
-
+       
         <Style TargetType="TextBlock" x:Key="UnderLineStyle">
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -27,7 +27,6 @@
             <Setter Property="FontSize" Value="24"></Setter>
             <Setter Property="Width" Value="350"></Setter>
             <Setter Property="Height" Value="5"></Setter>
-
         </Style>
 
         <Style TargetType="TextBlock" x:Key="SignStyle">
@@ -41,13 +40,11 @@
             <Setter Property="Background" Value="#599C87"/>
             <Setter Property="Margin" Value="0,0,0,3"/>
             <Setter Property="Padding" Value="15,0,0,0"></Setter>
-
-
         </Style>
 
     </UserControl.Resources>
-    <Grid>
-        
+    <Grid >
+
         <TextBlock Style="{StaticResource UnderLineStyle}"></TextBlock>
         <Button 
                 Content="{Binding Answer}" 
@@ -59,5 +56,5 @@
 
         <TextBlock Style="{StaticResource SignStyle}"  Text="{Binding Sign}"></TextBlock>
 
-</Grid>
+    </Grid>
 </UserControl>

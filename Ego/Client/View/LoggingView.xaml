@@ -10,7 +10,9 @@
         mc:Ignorable="d"
         Title="LoggingView" Height="600" Width="400"
         DataContext="{Binding RelativeSource={RelativeSource self}}">
-    <Window.Resources>
+
+   
+<Window.Resources>
         <vm:LoggingViewModel x:Key="LoggingViewModel"></vm:LoggingViewModel>
         <vm:LoggingViewModel x:Key="LoggingVm"></vm:LoggingViewModel>
         <converts:ErrorStingToBool x:Key="ErrorStingToBool"></converts:ErrorStingToBool>
@@ -18,7 +20,7 @@
     <Grid 
 
         DataContext="{StaticResource LoggingVm}" 
-          Background="DarkCyan">
+          Background="#004F69">
 
 <StackPanel>
 

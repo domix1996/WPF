@@ -1,139 +1,106 @@
 ﻿<Window x:Class="Client.View.GameView"
-          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Client"
         xmlns:viewModel="clr-namespace:Client.ViewModel"
         xmlns:converts="clr-namespace:Client.Converts"
-        xmlns:resx="clr-namespace:Client.Properties"
         xmlns:uc="clr-namespace:Client.View.UserControl"
-        Height="800" Width="800"
-        MinWidth="450"
-        >
+        Height="800" Width="700"
+        MinWidth="450">
     <Window.DataContext>
-        <viewModel:GameViewModel x:Name="GameViewModel"></viewModel:GameViewModel>
+        <viewModel:GameViewModel ></viewModel:GameViewModel>
     </Window.DataContext>
     <Window.Resources>
-        <converts:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
         <converts:AnswerCharToBool x:Key="AnswerCharToBool"/>
-      
     </Window.Resources>
-    <Grid  >
+    <Grid>
         <Grid.Background>
             <ImageBrush
                 Stretch="Fill" 
                 AlignmentX="Center"
                 AlignmentY="Top"
-                ImageSource="../Background.png"></ImageBrush>
+                ImageSource="C:\Users\mistr\Documents\Repo\WPF\Ego\Client\Graphics\Background.png
+"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1.5*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid RowSpan="2">
+            <uc:PointsUserControl 
+                
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,20,20,0"
+                Points="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                Path=DataContext.MyPoints,Mode=TwoWay}"></uc:PointsUserControl>
+        </Grid>
+        <Grid Grid.Row="0">
 
-        <Grid Grid.Row="0" >
-            <StackPanel>
+            <StackPanel >
                 <Label 
                     Style="{StaticResource ProgressLabelStyle}" 
-                    Content="Progress"/>
+                    Content="Postęp"/>
                 <ProgressBar 
                     Style="{StaticResource ProgressBarStyle}"
                     Maximum="{Binding QuestionNumberTotal}"
-                    Value="{Binding QuestionNumber}"
-                />
+                    Value="{Binding QuestionNumber}"/>
             </StackPanel>
+
         </Grid>
         <Grid Grid.Row="1" >
             <TextBlock 
                 Style="{StaticResource QuestionStyle}"
                 Text="{Binding QuestionText}"/>
-
         </Grid>
 
         <WrapPanel Grid.Row="2" >
             <uc:AnswerUserControl 
                     Sign="A"
-                    ButtonCommand="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.SendAnswerToSerwerCommand, 
-                    Mode=TwoWay}"
-                    Answer="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.AnswerA, 
-                    Mode=TwoWay}"
-                    IsEnabled="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.MyAnswer, 
-                    Converter={StaticResource AnswerCharToBool},ConverterParameter='A'}"
+                    ButtonCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                    Path=DataContext.SendAnswerToSerwerCommand}"
+                    Answer="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                    Path=DataContext.AnswerA,Mode=TwoWay}"
+                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, 
+                    Path=DataContext.MyAnswer,Converter={StaticResource AnswerCharToBool},ConverterParameter='A'}"
                     Margin="40,00,0,40" 
-                    HorizontalAlignment="Center"
-                    >
-            </uc:AnswerUserControl>
-            <uc:AnswerUserControl 
-                    Sign="B"
-                    ButtonCommand="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.SendAnswerToSerwerCommand, 
-                    Mode=TwoWay}"
-                    Answer="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.AnswerB, 
-                    Mode=TwoWay}" 
-                IsEnabled="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.MyAnswer, 
-                    Converter={StaticResource AnswerCharToBool},ConverterParameter='B'}"
-                    Margin="40,0,0,40" 
                     HorizontalAlignment="Center"/>
             <uc:AnswerUserControl 
+                    Sign="B"
+                    ButtonCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                    Path=DataContext.SendAnswerToSerwerCommand}"
+                    Answer="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                    Path=DataContext.AnswerB,Mode=TwoWay}" 
+                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
+                    Path=DataContext.MyAnswer,Converter={StaticResource AnswerCharToBool},ConverterParameter='B'}"
+                    Margin="40,0,0,40" 
+                    HorizontalAlignment="Center"/>
+        </WrapPanel>
+        <WrapPanel  Grid.Row="3" >
+            <uc:AnswerUserControl 
                     Sign="C"
-                    ButtonCommand="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.SendAnswerToSerwerCommand, 
-                    Mode=TwoWay}"
-                    Answer="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.AnswerC, 
-                    Mode=TwoWay}" 
-                IsEnabled="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.MyAnswer, 
-                    Converter={StaticResource AnswerCharToBool},ConverterParameter='C'}"
+                    ButtonCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                    Path=DataContext.SendAnswerToSerwerCommand}"
+                    Answer="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, 
+                    Path=DataContext.AnswerC,Mode=TwoWay}" 
+                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, 
+                    Path=DataContext.MyAnswer,Converter={StaticResource AnswerCharToBool},ConverterParameter='C'}"
                     Margin="40,0,0,40"
                     HorizontalAlignment="Center"/>
             <uc:AnswerUserControl 
                     Sign="D"
-                    ButtonCommand="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.SendAnswerToSerwerCommand, 
-                    Mode=TwoWay}"
-                    Answer="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.AnswerD, 
-                    Mode=TwoWay}" 
-                IsEnabled="{Binding RelativeSource={
-                    RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}, 
-                    Path=DataContext.MyAnswer, 
-                    Converter={StaticResource AnswerCharToBool},ConverterParameter='D'}"
+                    ButtonCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, 
+                    Path=DataContext.SendAnswerToSerwerCommand}"
+                    Answer="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},
+                    Path=DataContext.AnswerD, Mode=TwoWay}" 
+                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}, 
+                    Path=DataContext.MyAnswer,Converter={StaticResource AnswerCharToBool},ConverterParameter='D'}"
                     Margin="40,00,0,40"
                     HorizontalAlignment="Center"/>
         </WrapPanel>
-        <Grid Grid.Row="3" 
+        <Grid Grid.Row="4" 
               VerticalAlignment="Bottom">
             <StackPanel>
                 <TextBlock 
@@ -141,12 +108,7 @@
                         Style="{StaticResource QuestionStyle}"
                         Background="LightSlateGray"
                         Width="200"/>
-                <TextBlock 
-                    Text="{Binding MyPoints,StringFormat=Twoje punkty: {0}}"
-                    Style="{StaticResource QuestionStyle}"
-
-                    Background="LightSlateGray"
-                    Width="200"/>
+              
             </StackPanel>
         </Grid>
     </Grid>

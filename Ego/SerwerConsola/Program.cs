@@ -41,6 +41,8 @@ namespace SerwerKonsola
             //Console.WriteLine($"{Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString()} i porcie{port}");
             Console.WriteLine("\n Wprowadź liczbę graczy: ");
             NumberOfPlayers = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("Serwer start");
+
             TcpListener ServerSocket = new TcpListener(IPAddress.Any, port);
             ServerSocket.Start();
 
@@ -59,7 +61,6 @@ namespace SerwerKonsola
                 count++;
                 if (count == NumberOfPlayers)
                 {
-                    Console.WriteLine("START");
                     SendNextQuestionToPlayers();
                 }
             }
